@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Dapper;
+using SampleWebApp.Queries;
 
 namespace SampleWebApp.Controllers
 {
@@ -13,12 +14,8 @@ namespace SampleWebApp.Controllers
     {        
         public ActionResult Index()
         {
-            using (var cn = _db.GetConnection())
-            {
-                cn.Open();
-                var list = cn.Query<Customer>("SELECT * FROM [Customer] ORDER BY [LastName]");
-                return View(list);
-            }
+            var list = new AllCustomers().Execute();
+            return View(list);
         }
 
         public ActionResult Create(Customer record)
