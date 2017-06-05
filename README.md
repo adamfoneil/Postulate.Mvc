@@ -43,4 +43,11 @@ As a convention, I typically have my **Create** and **Edit** actions share a par
 
 Note also that my **\_Form** partial view has **TempData["error"]** call near the top. This is what will display any server-side error message once to the user.
 
-Since the [Create](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Views/Customer/Create.cshtml) and [Edit](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Views/Customer/Edit.cshtml) actions share most of the same markup, they are relatively bare on their own.
+Since the [Create](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Views/Customer/Create.cshtml) and [Edit](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Views/Customer/Edit.cshtml) views share most of the same markup, they are relatively bare on their own.
+
+## What about the Index action?
+
+I didn't mention anything about the [Index](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Controllers/CustomerController.cs#L15) action since that relies on another package [Postulate.Sql](https://github.com/adamosoftware/Postulate.Sql). Early on I decided to refactor query capabiilty out of Postulate.Orm since that was not really dependent on CRUD actions. Paginated results and strong-typed queries could be used separately from CRUD, so they ended up in a different package.
+
+Like any typical Index action, mine queries a list for display to the user. Have a look at this [commit](https://github.com/adamosoftware/Postulate.Mvc/commit/1f42413adca245913f8bcaa740f021a724f9d52b#diff-1f2b93ccaf1211720155daf38c87c741) to see how I changed from using an inline query to a strong-typed query using Postulate.Sql. I'm still using inline SQL ultimately, but it's encapsulated in a way that's more testable and less fragile than if I'd embedded directly in the controller. Querying is a big topic, so I'll cover that when I can catch my breath.
+
