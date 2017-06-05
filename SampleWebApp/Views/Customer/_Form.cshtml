@@ -5,7 +5,6 @@
 @using (Html.BeginForm("Save", "Customer"))
 {
     @Html.Hidden("Id", Model.Id)
-    @Html.ReturnUrlField()
     @Html.ActionNameField()
 
     <label>
