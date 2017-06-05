@@ -41,7 +41,7 @@ namespace Postulate.Mvc
             if (se != null)
             {
                 TempData.Add("command", se.CommandText);
-                //TempData.Add("params", se.Par);
+                TempData.Add("record", se.Record);
             }
         }
     }
