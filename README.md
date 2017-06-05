@@ -1,6 +1,6 @@
 # Postulate.Mvc
 
-Noget package coming soon. In the meantime, here is a walkthrough on a more realistic use of Postulate.Orm in an MVC project.
+Nuget package coming soon. In the meantime, here is a walkthrough on a more realistic use of Postulate.Orm in an MVC project.
 
 ## 1. Create a model class project separate from your web app project
 
