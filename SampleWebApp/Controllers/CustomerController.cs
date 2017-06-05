@@ -34,5 +34,19 @@ namespace SampleWebApp.Controllers
             if (SaveRecord(record)) return RedirectToAction("Edit", new { id = record.Id });
             return RedirectToAction(actionName, record);
         }
+
+        public ActionResult Delete(int id)
+        {
+            var record = _db.Find<Customer>(id);
+            return View(record);
+        }
+
+        [HttpPost]        
+        [ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            if (DeleteRecord<Customer>(id)) return RedirectToAction("Index");
+            return RedirectToAction("Delete", new { id = id });
+        }
     }
 }

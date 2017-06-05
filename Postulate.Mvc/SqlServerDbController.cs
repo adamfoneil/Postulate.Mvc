@@ -31,6 +31,20 @@ namespace Postulate.Mvc
             }            
         }
 
+        protected bool DeleteRecord<TRecord>(TKey id) where TRecord : Record<TKey>
+        {
+            try
+            {
+                _db.DeleteOne<TRecord>(id);
+                return true;
+            }
+            catch (Exception exc)
+            {
+                CaptureErrorMessage(exc);
+                return false;
+            }            
+        }
+
         protected void CaptureErrorMessage(Exception exc)
         {
             if (TempData.ContainsKey("error")) TempData.Remove("error");

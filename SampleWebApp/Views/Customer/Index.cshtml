@@ -9,7 +9,10 @@
 <ul>
     @foreach (var item in Model)
     {
-        <li>@item.LastName, @item.FirstName <a href="@Url.Action("Edit", new { id = item.Id })">edit</a></li>
+        <li>@item.LastName, @item.FirstName 
+            <a href="@Url.Action("Edit", new { id = item.Id })">edit</a> | 
+            <a href="@Url.Action("Delete", new { id = item.Id })">delete</a>
+        </li>
     }
 </ul>
 
