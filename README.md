@@ -29,3 +29,10 @@ Relevant source: [Views/Web.config](https://github.com/adamosoftware/Postulate.M
 ## 3. Create a controller that inherits from SqlServerDbController&lt;TDb, TKey&gt;
 
 Postulate.Mvc provides a special controller type that encapsulates common CRUD actions along with some exception handling that makes it simple to execute CRUD actions safely.
+
+Relevant source:
+- [SqlServerDbController](https://github.com/adamosoftware/Postulate.Mvc/blob/master/Postulate.Mvc/SqlServerDbController.cs) Shows the low-level implementation of CRUD methods and the related exception handling.
+
+- [CustomerController.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Controllers/CustomerController.cs) shows SqlServerDbController in use.
+
+- [Customer.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleModels/Customer.cs) To test adding delete permissions, I added an `AllowDelete` override to my Customer model class. This is a silly example because it has a hardcoded user name, but it demonstrates how you can check permissions on CRUD actions without adding complexity to your controllers.
