@@ -1,0 +1,22 @@
+﻿@model Customer
+
+<p class="has-error">@TempData["error"]</p>
+
+@using (Html.BeginForm("Save", "Customer"))
+{
+    @Html.Hidden("Id", Model.Id)
+    @Html.ReturnUrlField()
+    @Html.ActionNameField()
+
+    <label>
+        First Name:
+        @Html.TextBoxFor(model => model.FirstName)
+    </label>
+
+    <label>
+        Last Name:
+        @Html.TextBoxFor(model => model.LastName)
+    </label>
+
+    <input type="submit" value="Save"/>
+}

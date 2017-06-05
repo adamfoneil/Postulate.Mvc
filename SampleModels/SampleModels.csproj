@@ -54,7 +54,7 @@
   <ItemGroup>
     <Compile Include="BaseTable.cs" />
     <Compile Include="Customer.cs" />
-    <Compile Include="DemoDb.cs" />
+    <Compile Include="DemoDb2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

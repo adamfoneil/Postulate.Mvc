@@ -9,9 +9,11 @@ namespace Sample.Models
     public class Customer : BaseTable
     {
         [MaxLength(100)]
+        [Required]
         public string LastName { get; set; }
 
         [MaxLength(100)]
+        [Required]
         public string FirstName { get; set; }
     }
 }

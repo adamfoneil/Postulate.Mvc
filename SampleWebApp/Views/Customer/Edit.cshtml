@@ -1,0 +1,11 @@
+﻿@model Customer
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@Html.Partial("_Form", Model)
+
+<p><a href="@Url.Action("Index")">Back to List</a></p>

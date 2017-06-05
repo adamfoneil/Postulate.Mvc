@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Customer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Customers</h2>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>@item.LastName, @item.FirstName <a href="@Url.Action("Edit", new { id = item.Id })">edit</a></li>
+    }
+</ul>
+
+<p><a href="@Url.Action("Create")">Create</a></p>
+
