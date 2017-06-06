@@ -6,7 +6,7 @@ using SampleWebApp.SelectListQueries;
 
 namespace SampleWebApp.Controllers
 {
-    public class CustomerController : SqlServerDbController<DemoDb2, int>
+    public class CustomerController : BaseController<DemoDb2, int, UserProfile>
     {        
         public ActionResult Index()
         {
@@ -22,26 +22,26 @@ namespace SampleWebApp.Controllers
 
         public ActionResult Edit(int id)
         {
-            var record = _db.Find<Customer>(id);
+            var record = Db.Find<Customer>(id);
             FillSelectLists(record);
             return View(record);
         }
 
         private void FillSelectLists(Customer record)
         {
-            FillSelectListsInner(record, new { orgId = 1 }, new RegionSelect(), new CustomerTypeSelect());
+            FillSelectListsInner(record, new { orgId = CurrentUser.OrganizationId }, new RegionSelect(), new CustomerTypeSelect());
         }
 
         public ActionResult Save(Customer record, string actionName)
         {
-            record.OrganizationId = 1;
+            record.OrganizationId = CurrentUser.OrganizationId;
             if (SaveRecord(record)) return RedirectToAction("Edit", new { id = record.Id });
             return RedirectToAction(actionName, record);
         }
 
         public ActionResult Delete(int id)
         {
-            var record = _db.Find<Customer>(id);
+            var record = Db.Find<Customer>(id);
             return View(record);
         }
 

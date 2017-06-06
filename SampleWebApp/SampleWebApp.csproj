@@ -110,8 +110,8 @@
     <Reference Include="Postulate.Sql, Version=1.0.10.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Postulate.Sql.1.0.10\lib\net461\Postulate.Sql.dll</HintPath>
     </Reference>
-    <Reference Include="PostulateOrm, Version=0.9.139.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Postulate.Orm.0.9.139\lib\net461\PostulateOrm.dll</HintPath>
+    <Reference Include="PostulateOrm, Version=0.9.141.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Postulate.Orm.0.9.141\lib\net461\PostulateOrm.dll</HintPath>
     </Reference>
     <Reference Include="ReflectionHelper, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AoReflectionHelper.1.0.1\lib\net461\ReflectionHelper.dll</HintPath>

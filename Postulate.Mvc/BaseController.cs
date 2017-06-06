@@ -8,24 +8,32 @@ using System.Data;
 using Dapper;
 using System.Linq;
 using System.Reflection;
+using Postulate.Orm.Interfaces;
 
 namespace Postulate.Mvc
 {
-    public class SqlServerDbController<TDb, TKey> : Controller where TDb : SqlServerDb<TKey>, new()
+    public class BaseController<TDb, TKey, TProfile> : Controller 
+        where TDb : SqlServerDb<TKey>, new() 
+        where TProfile : Record<TKey>, IUserProfile
     {
-        protected SqlServerDb<TKey> _db = new TDb();
+        private SqlServerDb<TKey> _db = new TDb();
+        private TProfile _profile = null;
+
+        protected SqlServerDb<TKey> Db { get { return _db; } }
+        protected TProfile CurrentUser { get { return _profile; } }
 
         protected override void Initialize(RequestContext requestContext)
         {            
             base.Initialize(requestContext);
             _db.UserName = User.Identity.Name;
+            _profile = Db.FindUserProfile<TProfile>();
         }
 
         protected bool SaveRecord<TRecord>(TRecord record) where TRecord : Record<TKey>
         {
             try
             {
-                _db.Save(record);
+                Db.Save(record);
                 return true;
             }
             catch (Exception exc)
@@ -39,7 +47,7 @@ namespace Postulate.Mvc
         {
             try
             {
-                _db.DeleteOne<TRecord>(id);
+                Db.DeleteOne<TRecord>(id);
                 return true;
             }
             catch (Exception exc)
@@ -71,7 +79,7 @@ namespace Postulate.Mvc
         /// <param name="queries"></param>
         protected void FillSelectListsInner<TRecord>(TRecord record, object parameters, params SelectListQuery[] queries) where TRecord : Record<TKey>
         {
-            using (var cn = _db.GetConnection())
+            using (var cn = Db.GetConnection())
             {
                 cn.Open();
                 FillSelectListsInner(cn, record, parameters, queries);
