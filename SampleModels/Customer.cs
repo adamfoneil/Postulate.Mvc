@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Postulate.Orm.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
@@ -9,6 +10,9 @@ namespace Sample.Models
 {
     public class Customer : BaseTable
     {
+        [ForeignKey(typeof(Organization))]
+        public int OrganizationId { get; set; }
+
         [MaxLength(100)]
         [Required]
         public string LastName { get; set; }
@@ -16,6 +20,12 @@ namespace Sample.Models
         [MaxLength(100)]
         [Required]
         public string FirstName { get; set; }
+
+        [ForeignKey(typeof(CustomerType))]
+        public int TypeId { get; set; }
+
+        [ForeignKey(typeof(Region))]
+        public int RegionId { get; set; }
 
         public override bool AllowDelete(IDbConnection connection, string userName, out string message)
         {

@@ -6,9 +6,11 @@ using System.Linq;
 using System.Web;
 using Postulate.Orm.Enums;
 using System.Data;
+using Postulate.Orm.Attributes;
 
 namespace Sample.Models
 {
+    [ColumnAccess("OrganizationId", Access.InsertOnly)]
     public abstract class BaseTable : Record<int>
     {
         [MaxLength(50)]
