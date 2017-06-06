@@ -94,10 +94,11 @@ namespace Postulate.Mvc
 
             foreach (var q in queries)
             {
-                var selectedValue = GetSelectedValue(record, props, q.ValueProperty);
+                bool isDefaultValue;
+                var selectedValue = GetSelectedValue(record, props, q.ValueProperty, out isDefaultValue);
                 var listItems = gridReader.Read<SelectListItem>().Select(item => new SelectListItem() { Value = item.Value, Text = item.Text }).ToList();
 
-                if (selectedValue != null && !listItems.Any(item => item.Value.Equals(selectedValue)))
+                if (!isDefaultValue && selectedValue != null && !listItems.Any(item => item.Value.ToString().Equals(selectedValue.ToString())))
                 {
                     var missingItem = q.GetMissingItem(connection, selectedValue);
                     if (missingItem != null) listItems.Insert(0, missingItem);
@@ -107,10 +108,16 @@ namespace Postulate.Mvc
             }
         }
 
-        private object GetSelectedValue<TRecord>(TRecord record, PropertyInfo[] props, string valueProperty) where TRecord : Record<TKey>
+        private object GetSelectedValue<TRecord>(TRecord record, PropertyInfo[] props, string valueProperty, out bool isDefaultValue) where TRecord : Record<TKey>
         {
             var property = props.SingleOrDefault(pi => pi.Name.Equals(valueProperty));
-            return property?.GetValue(record);            
+            var result = property?.GetValue(record);
+
+            // thanks to https://stackoverflow.com/questions/325426/programmatic-equivalent-of-defaulttype
+            var defaultValue = (property?.PropertyType.IsValueType ?? false) ? Activator.CreateInstance(property.PropertyType) : null;
+            isDefaultValue = (defaultValue.Equals(result));
+
+            return result;
         }
     }
 }
