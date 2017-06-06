@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Data;
-using Postulate.Orm.Abstract;
 using Postulate.Orm.Interfaces;
 using Postulate.Orm.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sample.Models
 {
-    public class UserProfile : Record<int>, IUserProfile
+    public class UserProfile : BaseTable, IUserProfile
     {
+        [MaxLength(100)]
+        [PrimaryKey]
         public string UserName { get; set; }
 
         [ForeignKey(typeof(Organization))]

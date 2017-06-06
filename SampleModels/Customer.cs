@@ -1,13 +1,10 @@
 ﻿using Postulate.Orm.Attributes;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
-using System.Linq;
-using System.Web;
 
 namespace Sample.Models
 {
+    [TrackChanges(IgnoreProperties = "ModifiedBy,DateModified")]
     public class Customer : BaseTable
     {
         [ForeignKey(typeof(Organization))]

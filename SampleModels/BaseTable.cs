@@ -14,13 +14,18 @@ namespace Sample.Models
     public abstract class BaseTable : Record<int>
     {
         [MaxLength(50)]
+        [Required]
+        [ColumnAccess(Access.InsertOnly)]
         public string CreatedBy { get; set; }
 
+        [ColumnAccess(Access.InsertOnly)]
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
         [MaxLength(50)]
+        [ColumnAccess(Access.UpdateOnly)]
         public string ModifiedBy { get; set; }
 
+        [ColumnAccess(Access.UpdateOnly)]
         public DateTime? DateModified { get; set; }
 
         public override void BeforeSave(IDbConnection connection, string userName, SaveAction action)

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Sample.Models
 {
+    [DereferenceExpression("[Name]")]
     public class CustomerType : BaseTable
     {
         [PrimaryKey]
