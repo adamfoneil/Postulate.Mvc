@@ -7,15 +7,33 @@
     @Html.Hidden("Id", Model.Id)
     @Html.ActionNameField()
 
-    <label>
-        First Name:
-        @Html.TextBoxFor(model => model.FirstName)
-    </label>
+    <div>
+        <label>
+            First Name:
+            @Html.TextBoxFor(model => model.FirstName)
+        </label>
+    </div>
 
-    <label>
-        Last Name:
-        @Html.TextBoxFor(model => model.LastName)
-    </label>
+    <div>
+        <label>
+            Last Name:
+            @Html.TextBoxFor(model => model.LastName)
+        </label>
+    </div>
+
+    <div>
+        <label>
+            Customer Type:
+            @Html.DropDownList("TypeId", ViewData["CustomerTypeList"] as SelectList, "(select)", new { required = "required" })
+        </label>
+    </div>
+
+    <div>
+        <label>
+            Region:
+            @Html.DropDownList("RegionId", ViewData["RegionList"] as SelectList, "(select)", new { required = "required" })
+        </label>
+    </div>
 
     <input type="submit" value="Save"/>
 }
