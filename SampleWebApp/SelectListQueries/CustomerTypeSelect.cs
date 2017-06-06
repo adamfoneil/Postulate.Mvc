@@ -1,4 +1,7 @@
-﻿using Postulate.Mvc;
+﻿using System.Data;
+using System.Web.Mvc;
+using Postulate.Mvc;
+using Sample.Models;
 
 namespace SampleWebApp.SelectListQueries
 {
@@ -11,6 +14,15 @@ namespace SampleWebApp.SelectListQueries
             ORDER BY [Name]", 
             "CustomerTypeList", "TypeId")
         {
-        }        
+        }
+
+        /// <summary>
+        /// If an inactive customer type was used, this will get it in order to populate the dropdown -- otherwise, the field will look empty in the view
+        /// </summary>
+        public override SelectListItem GetMissingItem(IDbConnection connection, object id)
+        {
+            var item = new DemoDb2().Find<CustomerType>((int)id);
+            return new SelectListItem() { Value = item.Id.ToString(), Text = item.Name };
+        }
     }
 }
