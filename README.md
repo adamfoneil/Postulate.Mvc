@@ -31,7 +31,7 @@ Relevant source: [Views/Web.config](https://github.com/adamosoftware/Postulate.M
 Postulate.Mvc provides a special controller type that encapsulates common CRUD actions along with some exception handling that makes it simple to execute CRUD actions safely.
 
 Relevant source:
-- [SqlServerDbController.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/Postulate.Mvc/SqlServerDbController.cs) Shows the low-level implementation of CRUD methods and the related exception handling.
+- [BaseController.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/Postulate.Mvc/BaseController.cs) Shows the low-level implementation of CRUD methods and the related exception handling.
 
 - [CustomerController.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Controllers/CustomerController.cs) shows SqlServerDbController in use. Note that the code for the actions is pretty minimal. Notice that I use a `Save` action for both inserts and updates.
 
