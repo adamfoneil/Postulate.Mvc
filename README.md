@@ -1,6 +1,6 @@
 # Postulate.Mvc
 
-Noget package coming soon. In the meantime, here is a walkthrough on a more realistic use of Postulate.Orm in an MVC project.
+Nuget package coming soon. In the meantime, here is a walkthrough on a more realistic use of Postulate.Orm in an MVC project.
 
 ## 1. Create a model class project separate from your web app project
 
@@ -15,6 +15,39 @@ Relevant source:
 
 - [SampleModels/Customer.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleModels/Customer.cs) This is the one model class I'll be working with in these instructions. Note it inherits from [BaseTable](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleModels/BaseTable.cs) which will be relevant in a while.
 
+## 2. Make a few tweaks to your ~/Views/Web.config
 
+There are a couple manual additions I recommend to the ~/Views/Web.config file. You want to add a couple namespaces so that references to objects in Razor views can be simplified a bit.
 
+    <add namespace="Sample.Models"/>
+    <add namespace="Postulate.Mvc"/>
+
+Most importantly, adding the **Postulate.Mvc** namespace will make it easy to add some useful helpers later.
+
+Relevant source: [Views/Web.config](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Views/Web.config)
+
+## 3. Create a controller that inherits from SqlServerDbController&lt;TDb, TKey&gt;
+
+Postulate.Mvc provides a special controller type that encapsulates common CRUD actions along with some exception handling that makes it simple to execute CRUD actions safely.
+
+Relevant source:
+- [SqlServerDbController.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/Postulate.Mvc/SqlServerDbController.cs) Shows the low-level implementation of CRUD methods and the related exception handling.
+
+- [CustomerController.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Controllers/CustomerController.cs) shows SqlServerDbController in use. Note that the code for the actions is pretty minimal. Notice that I use a `Save` action for both inserts and updates.
+
+- [Customer.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleModels/Customer.cs) To test adding delete permissions, I added an `AllowDelete` override to my Customer model class. This is a silly example because it has a hardcoded user name, but it demonstrates how you can check permissions on CRUD actions without adding complexity to your controllers.
+
+## 4. Create views to go with the CustomerController actions
+
+As a convention, I typically have my **Create** and **Edit** actions share a partial view called **\_Form** that works both for inserts and updates to avoid redundant markup between the two actions: [\_Form](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Views/Customer/_Form.cshtml). This is not especially necessary in principle. But to use this approach, I need something to help my controller [Save](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Controllers/CustomerController.cs#L32) action tell which action to try again in case a save fails. For that, I use a Postulate.Mvc helper method **Html.ActionNameField()**. (That's why we added "Postulate.Mvc" to the namespaces in the web.config file.)
+
+Note also that my **\_Form** partial view has **TempData["error"]** call near the top. This is what will display any server-side error message once to the user.
+
+Since the [Create](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Views/Customer/Create.cshtml) and [Edit](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Views/Customer/Edit.cshtml) views share most of the same markup, they are relatively bare on their own.
+
+## What about the Index action?
+
+I didn't mention anything about the [Index](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Controllers/CustomerController.cs#L15) action since that relies on another package [Postulate.Sql](https://github.com/adamosoftware/Postulate.Sql). Early on I decided to refactor query capability out of Postulate.Orm since that was not really dependent on CRUD actions. Paginated results and strong-typed queries could be used separately from CRUD, so they ended up in a different package.
+
+Like any typical Index action, mine queries a list for display to the user. Have a look at this [commit](https://github.com/adamosoftware/Postulate.Mvc/commit/1f42413adca245913f8bcaa740f021a724f9d52b#diff-1f2b93ccaf1211720155daf38c87c741) to see how I changed from using an inline query to a strong-typed query using Postulate.Sql. I'm still using inline SQL ultimately, but it's encapsulated in a way that's more testable and less fragile than if I'd embedded directly in the controller. Querying is a big topic, so I'll cover that when I can catch my breath.
 
