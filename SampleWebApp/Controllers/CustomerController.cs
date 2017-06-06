@@ -6,6 +6,7 @@ using SampleWebApp.SelectListQueries;
 
 namespace SampleWebApp.Controllers
 {
+    [Authorize]
     public class CustomerController : BaseController<DemoDb2, int, UserProfile>
     {        
         public ActionResult Index()
