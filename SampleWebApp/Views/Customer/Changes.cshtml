@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Postulate.Orm.Models.ChangeHistory<int>>
+
+<h3>Change History</h3>
+
+<ul>
+    @foreach (var change in Model)
+    {
+        <li>
+            <span>@change.DateTime - @change.UserName, version @change.Version</span>
+            <ul>
+                @foreach (var prop in change.Properties)
+                {
+                    <li>@prop.PropertyName: @prop.OldValue -> @prop.NewValue</li>
+                }
+            </ul>
+        </li>
+    }
+</ul>

@@ -18,6 +18,9 @@ namespace Sample.Models
         [Required]
         public string FirstName { get; set; }
 
+        [MaxLength(100)]
+        public string Address { get; set; }
+
         [ForeignKey(typeof(CustomerType))]
         public int TypeId { get; set; }
 

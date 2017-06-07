@@ -8,4 +8,6 @@
 
 @Html.Partial("_Form", Model)
 
+@Html.Action("Changes", new { id = Model.Id })
+
 <p><a href="@Url.Action("Index")">Back to List</a></p>
