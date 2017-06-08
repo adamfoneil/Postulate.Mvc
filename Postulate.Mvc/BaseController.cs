@@ -9,10 +9,11 @@ using Dapper;
 using System.Linq;
 using System.Reflection;
 using Postulate.Orm.Interfaces;
+using System.Collections.Generic;
 
 namespace Postulate.Mvc
 {
-    public class BaseController<TDb, TKey, TProfile> : Controller 
+    public abstract class BaseController<TDb, TKey, TProfile> : Controller 
         where TDb : SqlServerDb<TKey>, new() 
         where TProfile : Record<TKey>, IUserProfile
     {
@@ -22,6 +23,20 @@ namespace Postulate.Mvc
         protected SqlServerDb<TKey> Db { get { return _db; } }
         protected TProfile CurrentUser { get { return _profile; } }
 
+        /// <summary>
+        /// SelectListQueries to execute when FillSelectLists is called
+        /// </summary>        
+        protected abstract IEnumerable<SelectListQuery> SelectListQueries();
+
+        /// <summary>
+        /// Parameters required by all queries in SelectListQueries()
+        /// </summary>
+        /// <returns></returns>
+        protected virtual object SelectListParameters()
+        {
+            return null;
+        }
+
         protected override void Initialize(RequestContext requestContext)
         {            
             base.Initialize(requestContext);
@@ -29,6 +44,9 @@ namespace Postulate.Mvc
             _profile = Db.FindUserProfile<TProfile>();
         }
 
+        /// <summary>
+        /// Saves a record and returns true if successful. Otherwise, the error message is set in TempData
+        /// </summary>
         protected bool SaveRecord<TRecord>(TRecord record) where TRecord : Record<TKey>
         {
             try
@@ -43,6 +61,9 @@ namespace Postulate.Mvc
             }            
         }
 
+        /// <summary>
+        /// Deletes a record and returns true if successful. Otherwise, the error message is set in TempData
+        /// </summary>
         protected bool DeleteRecord<TRecord>(TKey id) where TRecord : Record<TKey>
         {
             try
@@ -57,7 +78,7 @@ namespace Postulate.Mvc
             }            
         }
 
-        protected void CaptureErrorMessage(Exception exc)
+        private void CaptureErrorMessage(Exception exc)
         {
             if (TempData.ContainsKey("error")) TempData.Remove("error");
             TempData.Add("error", exc.Message);
@@ -71,26 +92,39 @@ namespace Postulate.Mvc
         }
 
         /// <summary>
-        /// Fills multiple SelectLists with a single query round trip
+        /// Fills multiple SelectLists with a single server round trip
         /// </summary>
-        /// <typeparam name="TRecord"></typeparam>
-        /// <param name="record"></param>
-        /// <param name="parameters"></param>
-        /// <param name="queries"></param>
-        protected void FillSelectListsInner<TRecord>(TRecord record, object parameters, params SelectListQuery[] queries) where TRecord : Record<TKey>
+        protected void FillSelectLists<TRecord>(TRecord record) where TRecord : Record<TKey>
         {
             using (var cn = Db.GetConnection())
             {
                 cn.Open();
-                FillSelectListsInner(cn, record, parameters, queries);
+                FillSelectLists(cn, record, SelectListQueries());
+            }            
+        }
+
+        /// <summary>
+        /// Fills multiple SelectLists with a single server round trip
+        /// </summary>
+        protected void FillSelectLists<TRecord>(TRecord record, params SelectListQuery[] queries) where TRecord : Record<TKey>
+        {
+            using (var cn = Db.GetConnection())
+            {
+                cn.Open();
+                FillSelectLists(cn, record, queries.Concat(SelectListQueries()));
             }
         }
 
-        protected void FillSelectListsInner<TRecord>(IDbConnection connection, TRecord record, object parameters, params SelectListQuery[] queries) where TRecord : Record<TKey>
+        /// <summary>
+        /// Fills multiple SelectLists with a single server round trip
+        /// </summary>
+        protected void FillSelectLists<TRecord>(IDbConnection connection, TRecord record, IEnumerable<SelectListQuery> queries) where TRecord : Record<TKey>
         {            
+            if (queries?.Any() ?? false) return;
+
             var props = typeof(TRecord).GetProperties();
-            
-            var gridReader = connection.QueryMultiple(string.Join("\r\n", queries.Select(q => $"{q.Sql};")), parameters);
+
+            var gridReader = connection.QueryMultiple(string.Join("\r\n", queries.Select(q => $"{q.Sql};")), SelectListParameters());
 
             foreach (var q in queries)
             {
