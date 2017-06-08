@@ -120,7 +120,7 @@ namespace Postulate.Mvc
         /// </summary>
         protected void FillSelectLists<TRecord>(IDbConnection connection, TRecord record, IEnumerable<SelectListQuery> queries) where TRecord : Record<TKey>
         {            
-            if (queries?.Any() ?? false) return;
+            if (!queries?.Any() ?? false) return;
 
             var props = typeof(TRecord).GetProperties();
 

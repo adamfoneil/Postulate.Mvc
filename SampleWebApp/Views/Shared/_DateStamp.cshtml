@@ -1,0 +1,9 @@
+﻿@model BaseTable
+
+<span style="color:gray">
+    Created by: @Model.CreatedBy on @Model.DateCreated
+    @if (Model.ModifiedBy != null)
+    {
+        <span> | Modified by @Model.ModifiedBy on @Model.DateModified</span>
+    }
+</span>

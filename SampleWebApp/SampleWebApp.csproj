@@ -107,11 +107,11 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Postulate.Sql, Version=1.0.10.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Postulate.Sql.1.0.10\lib\net461\Postulate.Sql.dll</HintPath>
+    <Reference Include="Postulate.Sql, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Postulate.Sql.1.0.12\lib\net461\Postulate.Sql.dll</HintPath>
     </Reference>
-    <Reference Include="PostulateOrm, Version=0.9.143.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Postulate.Orm.0.9.143\lib\net461\PostulateOrm.dll</HintPath>
+    <Reference Include="PostulateOrm, Version=0.9.145.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Postulate.Orm.0.9.145\lib\net461\PostulateOrm.dll</HintPath>
     </Reference>
     <Reference Include="ReflectionHelper, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AoReflectionHelper.1.0.1\lib\net461\ReflectionHelper.dll</HintPath>
@@ -168,6 +168,9 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="TestDataGenLib, Version=0.8.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AoTestDataGen.0.8.2-alpha\lib\net461\TestDataGenLib.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
@@ -292,6 +295,8 @@
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Customer\Delete.cshtml" />
     <Content Include="Views\Customer\Changes.cshtml" />
+    <Content Include="Views\Shared\_DateStamp.cshtml" />
+    <Content Include="Views\Customer\Generate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
