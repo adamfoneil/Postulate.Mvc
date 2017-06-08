@@ -3,6 +3,8 @@ using Sample.Models;
 using System.Web.Mvc;
 using SampleWebApp.Queries;
 using SampleWebApp.SelectListQueries;
+using System;
+using System.Collections.Generic;
 
 namespace SampleWebApp.Controllers
 {
@@ -13,6 +15,20 @@ namespace SampleWebApp.Controllers
         {
             var list = new AllCustomers().Execute();
             return View(list);
+        }
+
+        protected override IEnumerable<SelectListQuery> SelectListQueries()
+        {
+            return new SelectListQuery[]
+            {
+                new RegionSelect(),
+                new CustomerTypeSelect()
+            };
+        }
+
+        protected override object SelectListParameters()
+        {
+            return new { orgId = CurrentUser.OrganizationId };
         }
 
         public ActionResult Create(Customer record)
@@ -38,6 +54,7 @@ namespace SampleWebApp.Controllers
             if (SaveRecord(record)) return RedirectToAction("Edit", new { id = record.Id });
 
             // if you made it here, it means something went wrong
+            FillSelectLists(record);
             return RedirectToAction(actionName, record);
         }
 
@@ -54,12 +71,7 @@ namespace SampleWebApp.Controllers
             if (DeleteRecord<Customer>(id)) return RedirectToAction("Index");
 
             return RedirectToAction("Delete", new { id = id });
-        }
-
-        private void FillSelectLists(Customer record)
-        {
-            FillSelectListsInner(record, new { orgId = CurrentUser.OrganizationId }, new RegionSelect(), new CustomerTypeSelect());
-        }
+        }        
 
         public ActionResult Changes(int id)
         {
