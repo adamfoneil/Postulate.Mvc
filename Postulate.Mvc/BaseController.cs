@@ -94,7 +94,7 @@ namespace Postulate.Mvc
         /// <summary>
         /// Fills multiple SelectLists with a single server round trip
         /// </summary>
-        protected void FillSelectLists<TRecord>(TRecord record) where TRecord : Record<TKey>
+        protected void FillSelectLists(object record)
         {
             using (var cn = Db.GetConnection())
             {
@@ -106,7 +106,7 @@ namespace Postulate.Mvc
         /// <summary>
         /// Fills multiple SelectLists with a single server round trip
         /// </summary>
-        protected void FillSelectLists<TRecord>(TRecord record, params SelectListQuery[] queries) where TRecord : Record<TKey>
+        protected void FillSelectLists(object record, params SelectListQuery[] queries)
         {
             using (var cn = Db.GetConnection())
             {
@@ -118,11 +118,11 @@ namespace Postulate.Mvc
         /// <summary>
         /// Fills multiple SelectLists with a single server round trip
         /// </summary>
-        protected void FillSelectLists<TRecord>(IDbConnection connection, TRecord record, IEnumerable<SelectListQuery> queries) where TRecord : Record<TKey>
+        protected void FillSelectLists(IDbConnection connection, object record, IEnumerable<SelectListQuery> queries)
         {            
             if (!queries?.Any() ?? false) return;
 
-            var props = typeof(TRecord).GetProperties();
+            var props = record.GetType().GetProperties();
 
             var gridReader = connection.QueryMultiple(string.Join("\r\n", queries.Select(q => $"{q.Sql};")), SelectListParameters());
 
@@ -142,14 +142,14 @@ namespace Postulate.Mvc
             }
         }
 
-        private object GetSelectedValue<TRecord>(TRecord record, PropertyInfo[] props, string valueProperty, out bool isDefaultValue) where TRecord : Record<TKey>
+        private object GetSelectedValue(object record, PropertyInfo[] props, string valueProperty, out bool isDefaultValue)
         {
             var property = props.SingleOrDefault(pi => pi.Name.Equals(valueProperty));
             var result = property?.GetValue(record);
 
             // thanks to https://stackoverflow.com/questions/325426/programmatic-equivalent-of-defaulttype
             var defaultValue = (property?.PropertyType.IsValueType ?? false) ? Activator.CreateInstance(property.PropertyType) : null;
-            isDefaultValue = (defaultValue.Equals(result));
+            isDefaultValue = (defaultValue?.Equals(result) ?? true);
 
             return result;
         }

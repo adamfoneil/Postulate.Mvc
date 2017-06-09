@@ -23,6 +23,13 @@
 
     <div>
         <label>
+            Address:
+            @Html.TextBoxFor(model => model.Address)
+        </label>
+    </div>
+
+    <div>
+        <label>
             Customer Type:
             @Html.DropDownList("TypeId", ViewData["CustomerTypeList"] as SelectList, "(select)", new { required = "required" })
         </label>

@@ -3,13 +3,10 @@ using Sample.Models;
 using System.Web.Mvc;
 using SampleWebApp.Queries;
 using SampleWebApp.SelectListQueries;
-using System;
 using System.Collections.Generic;
-using TestData;
-using System.Threading;
 using Dapper;
 using System.Linq;
-using System.Threading.Tasks;
+using AdamOneilSoftware;
 
 namespace SampleWebApp.Controllers
 {
@@ -18,6 +15,8 @@ namespace SampleWebApp.Controllers
     {        
         public ActionResult Index(AllCustomers query)
         {
+            FillSelectLists(query);
+
             query.OrgId = CurrentUser.OrganizationId;
             var list = query.Execute();
             return View(list);
