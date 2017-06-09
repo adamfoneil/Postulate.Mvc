@@ -4,19 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Postulate.Mvc.Extensions;
 
 namespace Postulate.Mvc
 {
     public static class HtmlHelpers
     {
-        public static string ActionName(this HtmlHelper html)
+        public static string CurrentAction(this HtmlHelper html)
         {
-            return html.ViewContext.RequestContext.RouteData.Values["action"] as string;
+            return html.ViewContext.HttpContext.Request.CurrentAction();
         }
 
         public static MvcHtmlString ActionNameField(this HtmlHelper html)
         {
-            TagBuilder hidden = HiddenInput("actionName", ActionName(html));            
+            TagBuilder hidden = HiddenInput("actionName", CurrentAction(html));            
             return MvcHtmlString.Create(hidden.ToString(TagRenderMode.SelfClosing));
         }
 

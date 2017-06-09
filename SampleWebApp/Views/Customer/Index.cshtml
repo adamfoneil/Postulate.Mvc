@@ -6,6 +6,20 @@
 
 <h2>Customers</h2>
 
+@using (Html.BeginForm("Index", "Customer", FormMethod.Get))
+{
+    <table>
+        <tr>
+            <td>Type:</td>
+            <td>Region:</td>
+        </tr>
+        <tr>
+            <td>@Html.DropDownList("TypeId", ViewData["CustomerTypeList"] as SelectList, "(all)", new { onchange = "this.form.submit();" })</td>
+            <td>@Html.DropDownList("RegionId", ViewData["RegionList"] as SelectList, "(all)", new { onchange = "this.form.submit();" })</td>            
+        </tr>
+    </table>
+}
+
 <table class="table">
     <tr>
         <th>Last Name</th>
@@ -28,7 +42,7 @@
                 <a href="@Url.Action("Delete", new { id = item.Id })">delete</a>
             </td>
         </tr>
-    }
+        }
 </table>
 
 <p><a href="@Url.Action("Create")">Create</a></p>

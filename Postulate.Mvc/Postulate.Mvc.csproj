@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\RequestExtensions.cs" />
+    <Compile Include="Extensions\UrlExtensions.cs" />
     <Compile Include="HtmlHelpers.cs" />
     <Compile Include="SelectListQuery.cs" />
     <Compile Include="BaseController.cs" />
