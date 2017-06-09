@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AoTestDataGen">
-      <Version>0.8.0-alpha</Version>
+      <Version>0.8.2-alpha</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.Mvc">
       <Version>5.2.3</Version>
@@ -60,7 +60,7 @@
       <Version>0.9.145</Version>
     </PackageReference>
     <PackageReference Include="Postulate.Sql">
-      <Version>1.0.12</Version>
+      <Version>1.0.14</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
