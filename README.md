@@ -41,15 +41,11 @@ Relevant source:
 
 Postulate.Mvc offers an efficient and powerful way to fill multple SelectLists at a time that uses [Dapper's](https://github.com/StackExchange/Dapper) QueryMultiple method and Postulate.Mvc type [SelectListQuery](https://github.com/adamosoftware/Postulate.Mvc/blob/master/Postulate.Mvc/SelectListQuery.cs).
 
-Have a look at [CustomerController.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Controllers/CustomerController.cs#L32) where FillSelectListsInner is called. Notice this is called both by the Edit and Create actions -- this is how the select lists for these views get filled.
+Have a look at [CustomerController.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Controllers/CustomerController.cs#L32) where FillSelectLists is called. Notice this is called both by the Edit and Create actions -- this is how the select lists for these views get filled. A few things to say about this:
 
-    FillSelectListsInner(record, new { orgId = CurrentUser.OrganizationId }, new RegionSelect(), new CustomerTypeSelect());
+- There are a couple overrides: [SelectListQueries](/SampleWebApp/Controllers/CustomerController.cs#L25) and [SelectListParameters](/SampleWebApp/Controllers/CustomerController.cs#L34). These virtual methods let you specify the list of queries to run as well as the parameter object intended to work with all your queries. By overriding these methods, you can call FillSelectLists anywhere in your controller without any arguments. There are some overloads of [FillSelectLists](/Postulate.Mvc/BaseController.cs#L121) that let you specify queries and parameters explicitly if you need that.
 
-A few things to say about the FillSelectLists call:
-
-- The `record` argument is where the selected values of all select lists come from. In this case, we're looking at the Customer.TypeId and Customer.RegionId properties -- these are the two properties with dropdown values.
-
-- The `new { orgId = CurrentUser.OrganizationId }` anonymous object is used by Dapper's QueryMultiple method. It uses the protected CurrentUser property to access the user's strongly-typed profile information. One of the queries requires an @orgId parameter, so it is set here.
+- The FillSelectLists `record` argument is where the selected values of all select lists come from. In this case, we're looking at the Customer.TypeId and Customer.RegionId properties -- these are the two properties with dropdown values.
 
 - The params argument `new RegionSelect(), new CustomerTypeSelect()` are of type [SelectListQuery](https://github.com/adamosoftware/Postulate.Mvc/blob/master/Postulate.Mvc/SelectListQuery.cs). They are the queries themselves called by the method: [CustomerTypeSelect](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/SelectListQueries/CustomerTypeSelect.cs) and [RegionSelect](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/SelectListQueries/RegionSelect.cs).
 
