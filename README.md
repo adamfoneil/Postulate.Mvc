@@ -37,7 +37,7 @@ Relevant source:
 
 - [Customer.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleModels/Customer.cs) To test adding delete permissions, I added an `AllowDelete` override to my Customer model class. This is a silly example because it has a hardcoded user name, but it demonstrates how you can check permissions on CRUD actions without adding complexity to your controllers.
 
-## 4. Use FillSelectListsInner protected method
+## 4. Use [FillSelectLists](https://github.com/adamosoftware/Postulate.Mvc/blob/master/Postulate.Mvc/BaseController.cs#L121) protected method
 
 Postulate.Mvc offers an efficient and powerful way to fill multple SelectLists at a time that uses [Dapper's](https://github.com/StackExchange/Dapper) QueryMultiple method and Postulate.Mvc type [SelectListQuery](https://github.com/adamosoftware/Postulate.Mvc/blob/master/Postulate.Mvc/SelectListQuery.cs).
 
@@ -45,7 +45,7 @@ Have a look at [CustomerController.cs](https://github.com/adamosoftware/Postulat
 
     FillSelectListsInner(record, new { orgId = CurrentUser.OrganizationId }, new RegionSelect(), new CustomerTypeSelect());
 
-A few things to say about the FillSelectListsInner call:
+A few things to say about the FillSelectLists call:
 
 - The `record` argument is where the selected values of all select lists come from. In this case, we're looking at the Customer.TypeId and Customer.RegionId properties -- these are the two properties with dropdown values.
 
