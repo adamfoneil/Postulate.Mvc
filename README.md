@@ -33,7 +33,7 @@ Postulate.Mvc provides a special controller type that encapsulates common CRUD a
 Relevant source:
 - [BaseController.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/Postulate.Mvc/BaseController.cs) Shows the low-level implementation of CRUD methods and the related exception handling.
 
-- [CustomerController.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Controllers/CustomerController.cs) shows BaseController in use. Note that the code for the actions is pretty minimal. Notice that I use a `Save` action for both inserts and updates.
+- [CustomerController.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleWebApp/Controllers/CustomerController.cs) shows BaseController in use. Note that the code for the actions is pretty minimal. Notice that I use a `Save` action for both inserts and updates. Note that the [Generate](/SampleWebApp/Controllers/CustomerController.cs#L87) action uses my [Test Data Gen](https://github.com/adamosoftware/TestDataGen) library.
 
 - [Customer.cs](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleModels/Customer.cs) To test adding delete permissions, I added an `AllowDelete` override to my Customer model class. This is a silly example because it has a hardcoded user name, but it demonstrates how you can check permissions on CRUD actions without adding complexity to your controllers.
 
