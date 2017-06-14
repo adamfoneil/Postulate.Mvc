@@ -11,7 +11,7 @@ using AdamOneilSoftware;
 namespace SampleWebApp.Controllers
 {
     [Authorize]
-    public class CustomerController : BaseController<DemoDb2, int, UserProfile>
+    public class CustomerController : BaseController<DemoDb, int, UserProfile>
     {        
         public ActionResult Index(AllCustomers query)
         {

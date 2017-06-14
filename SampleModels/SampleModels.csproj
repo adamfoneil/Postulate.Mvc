@@ -34,8 +34,8 @@
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="PostulateOrm, Version=0.9.145.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Postulate.Orm.0.9.145\lib\net461\PostulateOrm.dll</HintPath>
+    <Reference Include="PostulateOrm, Version=0.9.151.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Postulate.Orm.0.9.151\lib\net461\PostulateOrm.dll</HintPath>
     </Reference>
     <Reference Include="ReflectionHelper, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AoReflectionHelper.1.0.1\lib\net461\ReflectionHelper.dll</HintPath>
@@ -54,7 +54,7 @@
   <ItemGroup>
     <Compile Include="BaseTable.cs" />
     <Compile Include="Customer.cs" />
-    <Compile Include="DemoDb2.cs" />
+    <Compile Include="DemoDb.cs" />
     <Compile Include="CustomerType.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

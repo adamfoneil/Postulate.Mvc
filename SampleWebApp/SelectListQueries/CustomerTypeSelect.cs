@@ -21,7 +21,7 @@ namespace SampleWebApp.SelectListQueries
         /// </summary>
         public override SelectListItem GetMissingItem(IDbConnection connection, object id)
         {
-            var item = new DemoDb2().Find<CustomerType>((int)id);
+            var item = new DemoDb().Find<CustomerType>((int)id);
             return new SelectListItem() { Value = item.Id.ToString(), Text = item.Name };
         }
     }

@@ -7,13 +7,13 @@ using System.Web;
 
 namespace Sample.Models
 {
-    public class DemoDb2 : SqlServerDb<int>
+    public class DemoDb : SqlServerDb<int>
     {
-        public DemoDb2() : base("DefaultConnection")
+        public DemoDb() : base("DefaultConnection")
         {
         }
 
-        public DemoDb2(Configuration config) : base(config, "DefaultConnection")
+        public DemoDb(Configuration config) : base(config, "DefaultConnection")
         {
         }
     }
