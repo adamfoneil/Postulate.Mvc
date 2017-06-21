@@ -37,6 +37,9 @@ namespace Postulate.Mvc
             return null;
         }
 
+        /// <summary>
+        /// Indicates where to redirect if current user has no TProfile record
+        /// </summary>
         protected abstract string ProfileUpdateUrl { get; }        
 
         protected override void Initialize(RequestContext requestContext)
