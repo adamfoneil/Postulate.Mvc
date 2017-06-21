@@ -1,0 +1,13 @@
+﻿@model UserProfile
+
+@using (Html.BeginForm("SaveProfile", "Manage"))
+{
+    @Html.Hidden("Id", Model.Id)
+
+    <label>
+        Organization:
+        @Html.DropDownList("OrganizationId", ViewBag.OrgSelect as SelectList, "(select)", new { required = "required" })
+    </label>
+
+    <input type="submit" value="Save"/>
+}

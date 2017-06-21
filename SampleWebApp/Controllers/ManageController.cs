@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SampleWebApp.Models;
+using Sample.Models;
+using SampleWebApp.SelectListQueries;
 
 namespace SampleWebApp.Controllers
 {
@@ -15,6 +17,8 @@ namespace SampleWebApp.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
+        private DemoDb _db = new DemoDb();
 
         public ManageController()
         {
@@ -61,6 +65,7 @@ namespace SampleWebApp.Controllers
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                : message == ManageMessageId.ProfileMissing ? "You were redirected here because your profile is not setup completely. Please fill out the form below:"
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -73,6 +78,24 @@ namespace SampleWebApp.Controllers
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             return View(model);
+        }
+
+        public ActionResult UserProfile()
+        {
+            _db.UserName = User.Identity.Name;
+            var profile = _db.FindUserProfile<UserProfile>();
+
+            ViewBag.OrgSelect = new OrgSelect().Execute(_db, null, profile?.OrganizationId);
+
+            return PartialView(profile);
+        }
+
+        public ActionResult SaveProfile(UserProfile record)
+        {
+            _db.UserName = User.Identity.Name;
+            record.UserName = _db.UserName;
+            _db.Save(record);
+            return RedirectToAction("Index");
         }
 
         //
@@ -381,7 +404,8 @@ namespace SampleWebApp.Controllers
             SetPasswordSuccess,
             RemoveLoginSuccess,
             RemovePhoneSuccess,
-            Error
+            Error,
+            ProfileMissing
         }
 
 #endregion

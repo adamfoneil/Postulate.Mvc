@@ -7,9 +7,13 @@
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
+    <h4>Profile settings</h4>
+    <hr/>
+    @Html.Action("UserProfile")
+
     <h4>Change your account settings</h4>
     <hr />
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal">        
         <dt>Password:</dt>
         <dd>
             [
@@ -20,7 +24,7 @@
             else
             {
                 @Html.ActionLink("Create", "SetPassword")
-            }
+                }
             ]
         </dd>
         <dt>External Logins:</dt>

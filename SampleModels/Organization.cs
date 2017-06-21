@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Postulate.Orm.Attributes;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sample.Models
 {
+    [DereferenceExpression("[Name]")]
     public class Organization : BaseTable
     {
         [MaxLength(100)]

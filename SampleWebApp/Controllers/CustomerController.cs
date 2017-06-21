@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using Dapper;
 using System.Linq;
 using AdamOneilSoftware;
+using System;
+using Postulate.Orm.Extensions;
 
 namespace SampleWebApp.Controllers
 {
@@ -21,6 +23,8 @@ namespace SampleWebApp.Controllers
             var list = query.Execute();
             return View(list);
         }
+
+        protected override string ProfileUpdateUrl => "/Manage/Index?ManageMessageId=ProfileMissing";
 
         protected override IEnumerable<SelectListQuery> SelectListQueries()
         {
@@ -86,19 +90,48 @@ namespace SampleWebApp.Controllers
 
         public ActionResult Generate(int count = 100)
         {
+            var tdg = new TestDataGenerator();            
+
             int[] orgIds = null;
             CustomerType[] customerTypes = null;
             int[] regionIds = null;
-
+            
             using (var cn = Db.GetConnection())
             {
                 cn.Open();
+
+                tdg.GenerateUpTo<Organization>(cn, 5,
+                    connection => connection.QuerySingle<int?>("SELECT COUNT(1) FROM [dbo].[Organization]") ?? 0,
+                    o =>
+                    {
+                        o.Name = tdg.Random(Source.CompanyName);
+                        o.CreatedBy = "random";
+                    }, (records) =>
+                    {
+                        Db.SaveMultiple(records);                        
+                    });
+
                 orgIds = cn.Query<int>("SELECT [Id] FROM [dbo].[Organization]").ToArray();
+
+                tdg.GenerateUniqueUpTo<CustomerType>(cn, 12,
+                    connection => connection.QuerySingle<int?>("SELECT COUNT(1) FROM [dbo].[CustomerType]") ?? 0,
+                    ct =>
+                    {
+                        ct.OrganizationId = tdg.Random(orgIds);
+                        ct.Name = tdg.Random(Source.WidgetName);
+                        ct.CreatedBy = "random";
+                    }, (connection, ct) =>
+                    {
+                        return connection.Exists("[dbo].[CustomerType] WHERE [Name]=@name", new { name = ct.Name });
+                    }, (record) =>
+                    {
+                        Db.Save(record);
+                    });
+                
                 customerTypes = cn.Query<CustomerType>("SELECT * FROM [dbo].[CustomerType]").ToArray();
                 regionIds = cn.Query<int>("SELECT [Id] FROM [dbo].[Region]").ToArray();
             }
-            
-            var tdg = new TestDataGenerator();
+                        
             tdg.Generate<Customer>(count, (c) =>
             {
                 c.OrganizationId = tdg.Random(orgIds);

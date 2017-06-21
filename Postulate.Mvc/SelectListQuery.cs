@@ -1,4 +1,6 @@
-﻿using Postulate.Sql.Abstract;
+﻿using Dapper;
+using Postulate.Orm.Interfaces;
+using Postulate.Sql.Abstract;
 using System;
 using System.Data;
 using System.Web.Mvc;
@@ -43,6 +45,21 @@ namespace Postulate.Mvc
         public virtual SelectListItem GetMissingItem(IDbConnection connection, object id)
         {
             return null;
+        }
+
+        public SelectList Execute(IDb db, object parameters = null, object selectedValue = null)
+        {
+            using (var cn = db.GetConnection())
+            {
+                cn.Open();
+                return Execute(cn, parameters, selectedValue);
+            }
+        }
+
+        public SelectList Execute(IDbConnection connection, object parameters = null, object selectedValue = null)
+        {
+            var items = connection.Query<SelectListItem>(Sql, parameters);
+            return new SelectList(items, "Value", "Text", selectedValue);
         }
     }
 }

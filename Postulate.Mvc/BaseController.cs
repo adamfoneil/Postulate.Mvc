@@ -37,11 +37,24 @@ namespace Postulate.Mvc
             return null;
         }
 
+        protected abstract string ProfileUpdateUrl { get; }        
+
         protected override void Initialize(RequestContext requestContext)
         {            
             base.Initialize(requestContext);
             _db.UserName = User.Identity.Name;
-            _profile = Db.FindUserProfile<TProfile>();
+            _profile = Db.FindUserProfile<TProfile>();            
+        }        
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {            
+            base.OnActionExecuting(filterContext);
+
+            if (_profile == null)
+            {
+                // thanks to https://stackoverflow.com/questions/32925219/how-to-create-a-custom-attribute-that-will-redirect-to-login-if-it-returns-false
+                filterContext.Result = new RedirectResult(ProfileUpdateUrl);
+            }
         }
 
         /// <summary>
