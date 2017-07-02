@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -37,6 +38,23 @@ namespace Postulate.Mvc
             base.Initialize(requestContext);
             _db.UserName = User.Identity.Name;
             
+        }
+
+        /// <summary>
+        /// Updates a record and returns true if successful. Otherwise, the error message is set in TempData
+        /// </summary>
+        protected bool UpdateRecord<TRecord>(TRecord record, params Expression<Func<TRecord, object>>[] setColumns) where TRecord : Record<TKey>
+        {
+            try
+            {
+                Db.Update(record, setColumns);
+                return true;
+            }
+            catch (Exception exc)
+            {
+                CaptureErrorMessage(exc);
+                return false;
+            }
         }
 
         /// <summary>
@@ -106,7 +124,10 @@ namespace Postulate.Mvc
             using (var cn = Db.GetConnection())
             {
                 cn.Open();
-                FillSelectLists(cn, record, queries.Concat(SelectListQueries()));
+                var builtInQueries = SelectListQueries();                
+                FillSelectLists(cn, record, (builtInQueries != null) ?
+                    queries.Concat(SelectListQueries()) : 
+                    queries);
             }
         }
 
