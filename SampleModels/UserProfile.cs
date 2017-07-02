@@ -17,6 +17,9 @@ namespace Sample.Models
         [ForeignKey(typeof(Organization))]
         public int OrganizationId { get; set; }
 
+        [DefaultExpression("0")]
+        public bool TrackNavigation { get; set; }
+
         public DateTime GetLocalTime(IDbConnection connection)
         {
             return DateTime.Now;

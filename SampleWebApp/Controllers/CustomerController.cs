@@ -13,7 +13,7 @@ using Postulate.Orm.Extensions;
 namespace SampleWebApp.Controllers
 {
     [Authorize]
-    public class CustomerController : BaseController<DemoDb, int, UserProfile>
+    public class CustomerController : BaseProfileController<DemoDb, int, UserProfile>
     {        
         public ActionResult Index(AllCustomers query)
         {

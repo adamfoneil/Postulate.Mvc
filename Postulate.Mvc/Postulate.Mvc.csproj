@@ -41,11 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseController.cs" />
     <Compile Include="Extensions\RequestExtensions.cs" />
     <Compile Include="Extensions\UrlExtensions.cs" />
     <Compile Include="HtmlHelpers.cs" />
     <Compile Include="SelectListQuery.cs" />
-    <Compile Include="BaseController.cs" />
+    <Compile Include="BaseProfileController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
