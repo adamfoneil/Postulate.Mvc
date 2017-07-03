@@ -33,7 +33,7 @@ namespace Postulate.Mvc
 
         protected override void Initialize(RequestContext requestContext)
         {
-            base.Initialize(requestContext);
+            base.Initialize(requestContext);            
             _profile = Db.FindUserProfile<TProfile>();
         }
 
@@ -41,7 +41,8 @@ namespace Postulate.Mvc
         {            
             base.OnActionExecuting(filterContext);
 
-            if (_profile == null || (_profile != null && (!ProfileRule?.Invoke(_profile) ?? true)))
+            if (_profile == null || (_profile != null && (!
+                ProfileRule?.Invoke(_profile) ?? true)))
             {
                 // thanks to https://stackoverflow.com/questions/32925219/how-to-create-a-custom-attribute-that-will-redirect-to-login-if-it-returns-false
                 filterContext.Result = new RedirectResult(ProfileUpdateUrl);

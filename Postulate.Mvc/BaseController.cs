@@ -36,8 +36,7 @@ namespace Postulate.Mvc
         protected override void Initialize(RequestContext requestContext)
         {
             base.Initialize(requestContext);
-            _db.UserName = User.Identity.Name;
-            
+            _db.UserName = User.Identity.Name;            
         }
 
         /// <summary>
