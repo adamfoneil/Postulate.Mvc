@@ -85,7 +85,7 @@ namespace SampleWebApp.Controllers
             _db.UserName = User.Identity.Name;
             var profile = _db.FindUserProfile<UserProfile>();
 
-            ViewBag.OrgSelect = new OrgSelect().Execute(_db, null, profile?.OrganizationId);
+            ViewBag.OrgSelect = new OrgSelect().Execute(_db, profile?.OrganizationId);
 
             return PartialView(profile);
         }

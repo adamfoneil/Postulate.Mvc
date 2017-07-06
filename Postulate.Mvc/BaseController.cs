@@ -22,16 +22,7 @@ namespace Postulate.Mvc
         /// <summary>
         /// SelectListQueries to execute when FillSelectLists is called
         /// </summary>        
-        protected virtual IEnumerable<SelectListQuery> SelectListQueries() { return null; }
-
-        /// <summary>
-        /// Parameters required by all queries in SelectListQueries()
-        /// </summary>
-        /// <returns></returns>
-        protected virtual object SelectListParameters()
-        {
-            return null;
-        }
+        protected virtual IEnumerable<SelectListQuery> SelectListQueries(object record = null) { return null; }
 
         protected override void Initialize(RequestContext requestContext)
         {
@@ -111,7 +102,7 @@ namespace Postulate.Mvc
             using (var cn = Db.GetConnection())
             {
                 cn.Open();
-                FillSelectLists(cn, record, SelectListQueries());
+                FillSelectLists(cn, record, SelectListQueries(record));
             }
         }
 
@@ -123,9 +114,9 @@ namespace Postulate.Mvc
             using (var cn = Db.GetConnection())
             {
                 cn.Open();
-                var builtInQueries = SelectListQueries();                
+                var builtInQueries = SelectListQueries(record);
                 FillSelectLists(cn, record, (builtInQueries != null) ?
-                    queries.Concat(SelectListQueries()) : 
+                    queries.Concat(builtInQueries) : 
                     queries);
             }
         }
@@ -139,7 +130,7 @@ namespace Postulate.Mvc
 
             var props = record.GetType().GetProperties();
 
-            var gridReader = connection.QueryMultiple(string.Join("\r\n", queries.Select(q => $"{q.Sql};")), SelectListParameters());
+            var gridReader = connection.QueryMultiple(string.Join("\r\n", queries.Select(q => $"{q.Sql};")), CombineParameters(queries));
 
             foreach (var q in queries)
             {
@@ -155,6 +146,23 @@ namespace Postulate.Mvc
 
                 ViewData.Add(q.ViewDataKey, new SelectList(listItems, "Value", "Text", selectedValue));
             }
+        }
+
+        private DynamicParameters CombineParameters(IEnumerable<SelectListQuery> queries)
+        {
+            var paramValues = queries.SelectMany(q => q.GetType().GetProperties()
+                .Where(pi => pi.GetValue(q) != null)
+                .Select(pi => new { Name = pi.Name, Value = pi.GetValue(q) })
+                .GroupBy(pi => pi.Name)
+                .Select(grp => new
+                {
+                    Name = grp.Key,
+                    Value = grp.First().Value
+                }));
+
+            var dp = new DynamicParameters();
+            foreach (var pv in paramValues) dp.Add(pv.Name, pv.Value);
+            return dp;
         }
 
         private object GetSelectedValue(object record, PropertyInfo[] props, string valueProperty, out bool isDefaultValue)

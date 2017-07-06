@@ -26,18 +26,13 @@ namespace SampleWebApp.Controllers
 
         protected override string ProfileUpdateUrl => "/Manage/Index?ManageMessageId=ProfileMissing";
 
-        protected override IEnumerable<SelectListQuery> SelectListQueries()
+        protected override IEnumerable<SelectListQuery> SelectListQueries(object record = null)
         {
             return new SelectListQuery[]
             {
                 new RegionSelect(),
                 new CustomerTypeSelect()
             };
-        }
-
-        protected override object SelectListParameters()
-        {
-            return new { orgId = CurrentUser.OrganizationId };
         }
 
         public ActionResult Create(Customer record)

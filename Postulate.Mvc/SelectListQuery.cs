@@ -47,18 +47,18 @@ namespace Postulate.Mvc
             return null;
         }
 
-        public SelectList Execute(IDb db, object parameters = null, object selectedValue = null)
+        public SelectList Execute(IDb db, object selectedValue = null)
         {
             using (var cn = db.GetConnection())
             {
                 cn.Open();
-                return Execute(cn, parameters, selectedValue);
+                return Execute(cn, selectedValue);
             }
         }
 
-        public SelectList Execute(IDbConnection connection, object parameters = null, object selectedValue = null)
+        public SelectList Execute(IDbConnection connection, object selectedValue = null)
         {
-            var items = connection.Query<SelectListItem>(Sql, parameters);
+            var items = connection.Query<SelectListItem>(Sql, this);
             return new SelectList(items, "Value", "Text", selectedValue);
         }
     }
