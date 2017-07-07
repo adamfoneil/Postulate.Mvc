@@ -53,7 +53,7 @@ namespace Postulate.Mvc
         protected bool SaveRecord<TRecord>(TRecord record) where TRecord : Record<TKey>
         {
             try
-            {
+            {                
                 Db.Save(record);
                 return true;
             }
@@ -130,7 +130,7 @@ namespace Postulate.Mvc
 
             var props = record.GetType().GetProperties();
 
-            var gridReader = connection.QueryMultiple(string.Join("\r\n", queries.Select(q => $"{q.Sql};")), CombineParameters(queries));
+            var gridReader = connection.QueryMultiple(string.Join("\r\n", queries.Select(q => $"{q.Sql};")), CombineParameters(queries, record, props));
 
             foreach (var q in queries)
             {
@@ -148,7 +148,7 @@ namespace Postulate.Mvc
             }
         }
 
-        private DynamicParameters CombineParameters(IEnumerable<SelectListQuery> queries)
+        private DynamicParameters CombineParameters(IEnumerable<SelectListQuery> queries, object record, PropertyInfo[] props)
         {
             var paramValues = queries.SelectMany(q => q.GetType().GetProperties()
                 .Where(pi => pi.GetValue(q) != null)
@@ -162,6 +162,17 @@ namespace Postulate.Mvc
 
             var dp = new DynamicParameters();
             foreach (var pv in paramValues) dp.Add(pv.Name, pv.Value);
+
+            foreach (var pi in props)
+            {
+                var value = pi.GetValue(record);
+                if (value != null)
+                {
+                    if (value is DateTime && value.Equals(default(DateTime))) continue;
+                    dp.Add(pi.Name, value);
+                }
+            }
+
             return dp;
         }
 
