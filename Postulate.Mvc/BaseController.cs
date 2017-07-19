@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Postulate.Mvc.Extensions;
 
 namespace Postulate.Mvc
 {
@@ -82,15 +83,14 @@ namespace Postulate.Mvc
         }
 
         private void CaptureErrorMessage(Exception exc)
-        {
-            if (TempData.ContainsKey("error")) TempData.Remove("error");
-            TempData.Add("error", exc.Message);
+        {                        
+            TempData.RemoveAndAdd("error", exc.Message);            
 
             SaveException se = exc as SaveException;
             if (se != null)
             {
-                TempData.Add("command", se.CommandText);
-                TempData.Add("record", se.Record);
+                TempData.RemoveAndAdd("command", se.CommandText);                
+                TempData.RemoveAndAdd("record", se.Record);
             }
         }
 
@@ -163,7 +163,7 @@ namespace Postulate.Mvc
             var dp = new DynamicParameters();
             foreach (var pv in paramValues) dp.Add(pv.Name, pv.Value);
 
-            foreach (var pi in props)
+            foreach (var pi in props.Where(pi => IsSimpleType(pi.PropertyType)))
             {
                 var value = pi.GetValue(record);
                 if (value != null)
@@ -174,6 +174,23 @@ namespace Postulate.Mvc
             }
 
             return dp;
+        }
+        
+        private static bool IsSimpleType(Type type)
+        {
+            // thanks to http://stackoverflow.com/questions/2442534/how-to-test-if-type-is-primitive
+            return
+                type.IsValueType ||
+                type.IsPrimitive ||
+                new Type[] {
+                typeof(String),
+                typeof(Decimal),
+                typeof(DateTime),
+                typeof(DateTimeOffset),
+                typeof(TimeSpan),
+                typeof(Guid)
+            }.Contains(type) ||
+                Convert.GetTypeCode(type) != TypeCode.Object;
         }
 
         private object GetSelectedValue(object record, PropertyInfo[] props, string valueProperty, out bool isDefaultValue)
