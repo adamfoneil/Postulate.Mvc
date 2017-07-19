@@ -6,7 +6,7 @@ Nuget package coming soon. In the meantime, here is a walkthrough on a more real
 
 It's not only a good architectural approach, but it simplifies things for the Schema Merge app since only your model classes will be present. I've had strange exceptions trying to use Schema Merge from a web app project, so I advise from the start creating a separate project to hold model classes.
 
-Install the Schema Merge app itself [here](https://github.com/adamosoftware/Postulate.Orm/releases), and if you like, check out my video walkthrough on [Vimeo](https://vimeo.com/219400011). Verify that you can build model classes and that your database exists as expected.
+Install the Schema Merge app itself [here](https://github.com/adamosoftware/Postulate.MergeUI/releases), and if you like, check out my video walkthrough on [Vimeo](https://vimeo.com/219400011). Verify that you can build model classes and that your database exists as expected.
 
 Relevant source:
 - [SampleModels/App.config](https://github.com/adamosoftware/Postulate.Mvc/blob/master/SampleModels/App.config) Notice I used "DefaultConnection" as the connection name. This is so it plays nicely with ASP.NET identity.
