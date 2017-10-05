@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Postulate.Mvc.Extensions;
 
 namespace Postulate.Mvc
@@ -23,7 +18,7 @@ namespace Postulate.Mvc
 
         public static MvcHtmlString ReturnUrlField(this HtmlHelper html)
         {
-            TagBuilder hidden = HiddenInput("returnUrl", html.ViewContext.RequestContext.HttpContext.Request.RawUrl);            
+            TagBuilder hidden = HiddenInput("returnUrl", html.ViewContext.RequestContext.HttpContext.Request.QueryString["returnUrl"]);
             return MvcHtmlString.Create(hidden.ToString(TagRenderMode.SelfClosing));
         }
 
@@ -34,6 +29,27 @@ namespace Postulate.Mvc
             hidden.MergeAttribute("name", name);
             hidden.MergeAttribute("value", value?.ToString());
             return hidden;
+        }
+
+        public static MvcHtmlString YesNoDropdown(this HtmlHelper html, string fieldName, bool value, string yesText = "Yes", string noText = "No", object htmlAttributes = null)
+        {
+            TagBuilder select = new TagBuilder("select");
+            select.MergeAttribute("name", fieldName);
+            select.MergeAttribute("id", fieldName);
+            if (htmlAttributes != null) select.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+
+            select.InnerHtml = YesNoDropdownOption(true, value, yesText) + YesNoDropdownOption(false, value, noText);
+
+            return MvcHtmlString.Create(select.ToString(TagRenderMode.Normal));
+        }
+
+        private static string YesNoDropdownOption(bool optionValue, bool boundValue, string text)
+        {
+            TagBuilder option = new TagBuilder("option");
+            option.MergeAttribute("value", optionValue.ToString().ToLower());
+            option.SetInnerText(text);
+            if (boundValue == optionValue) option.MergeAttribute("selected", "true");
+            return option.ToString(TagRenderMode.Normal);
         }
     }
 }
