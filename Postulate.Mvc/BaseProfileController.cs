@@ -14,7 +14,7 @@ using System.Collections.Generic;
 namespace Postulate.Mvc
 {
     public abstract class BaseProfileController<TDb, TKey, TProfile> : BaseController<TDb, TKey>        
-        where TProfile : Record<TKey>, IUserProfile
+        where TProfile : Record<TKey>, IUserProfile, new()
         where TDb : SqlServerDb<TKey>, new()
     {        
         private TProfile _profile = null;
