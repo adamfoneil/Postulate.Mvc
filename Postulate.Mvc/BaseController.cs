@@ -34,7 +34,7 @@ namespace Postulate.Mvc
         /// <summary>
         /// Updates a record and returns true if successful. Otherwise, the error message is set in TempData
         /// </summary>
-        protected bool UpdateRecord<TRecord>(TRecord record, params Expression<Func<TRecord, object>>[] setColumns) where TRecord : Record<TKey>
+        protected bool UpdateRecord<TRecord>(TRecord record, params Expression<Func<TRecord, object>>[] setColumns) where TRecord : Record<TKey>, new()
         {
             try
             {
@@ -51,7 +51,7 @@ namespace Postulate.Mvc
         /// <summary>
         /// Saves a record and returns true if successful. Otherwise, the error message is set in TempData
         /// </summary>
-        protected bool SaveRecord<TRecord>(TRecord record) where TRecord : Record<TKey>
+        protected bool SaveRecord<TRecord>(TRecord record) where TRecord : Record<TKey>, new()
         {
             try
             {                
@@ -68,7 +68,7 @@ namespace Postulate.Mvc
         /// <summary>
         /// Deletes a record and returns true if successful. Otherwise, the error message is set in TempData
         /// </summary>
-        protected bool DeleteRecord<TRecord>(TKey id) where TRecord : Record<TKey>
+        protected bool DeleteRecord<TRecord>(TKey id) where TRecord : Record<TKey>, new()
         {
             try
             {
@@ -128,7 +128,7 @@ namespace Postulate.Mvc
         {
             if (!queries?.Any() ?? false) return;
 
-            var props = record.GetType().GetProperties();
+            var props = record?.GetType().GetProperties();
 
             var gridReader = connection.QueryMultiple(string.Join("\r\n", queries.Select(q => $"{q.Sql};")), CombineParameters(queries, record, props));
 
@@ -163,16 +163,19 @@ namespace Postulate.Mvc
             var dp = new DynamicParameters();
             foreach (var pv in paramValues) dp.Add(pv.Name, pv.Value);
 
-            foreach (var pi in props.Where(pi => IsSimpleType(pi.PropertyType)))
+            if (record != null)
             {
-                var value = pi.GetValue(record);
-                if (value != null)
+                foreach (var pi in props.Where(pi => IsSimpleType(pi.PropertyType)))
                 {
-                    if (value is DateTime && value.Equals(default(DateTime))) continue;
-                    dp.Add(pi.Name, value);
+                    var value = pi.GetValue(record);
+                    if (value != null)
+                    {
+                        if (value is DateTime && value.Equals(default(DateTime))) continue;
+                        dp.Add(pi.Name, value);
+                    }
                 }
             }
-
+            
             return dp;
         }
         
