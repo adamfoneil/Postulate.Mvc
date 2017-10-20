@@ -27,7 +27,7 @@ namespace Postulate.Mvc
         protected Func<TProfile, bool> ProfileRule;
 
         /// <summary>
-        /// Indicates where to redirect if current user has no TProfile record
+        /// Indicates where to redirect if current user has no TProfile record or if ProfileRule returns false
         /// </summary>
         protected abstract string ProfileUpdateUrl { get; }
 
