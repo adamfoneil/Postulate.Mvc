@@ -5,7 +5,7 @@ Nuget package: **Postulate.Mvc**
 This library is a set of base classes and helpers for improving productivity in ASP.NET MVC5 when used with [Postulate.Orm](https://github.com/adamosoftware/Postulate.Orm).
 
 - [BaseController](/Postulate.Mvc/BaseController.cs) enhances your controllers by offering
-    - data access through the [Db](/Postulate.Mvc/BaseController.cs#L22) property as well as [SaveRecord](/Postulate.Mvc/BaseController.cs#L55), [DeleteRecord](/Postulate.Mvc/BaseController.cs#L72), and [UpdateRecord](/BaseController.cs#L38) methods. These can greatly simplify typical Controller CRUD actions if you're using Postulate.Orm.
+    - data access through the [Db](/Postulate.Mvc/BaseController.cs#L22) property as well as [SaveRecord](/Postulate.Mvc/BaseController.cs#L55), [DeleteRecord](/Postulate.Mvc/BaseController.cs#L72), and [UpdateRecord](/Postulate.Mvc/BaseController.cs#L38) methods. These can greatly simplify typical Controller CRUD actions if you're using Postulate.Orm.
     - convenient and efficient drop down list filling with the [FillSelectLists](/Postulate.Mvc/BaseController.cs#L128) method and its several overloads. FillSelectLists executes multiple list-filling queries in one round trip using Dapper's QueryMultiple method.
     - access to Json-based user profile data with the [LoadUserData](/Postulate.Mvc/BaseController.cs#L212) method.
     
