@@ -1,7 +1,6 @@
 ﻿using System.Web.Mvc;
-using Postulate.Mvc.Extensions;
 
-namespace Postulate.Mvc
+namespace Postulate.Mvc.Extensions
 {
     public static class HtmlHelpers
     {

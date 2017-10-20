@@ -47,7 +47,7 @@
     <Compile Include="Extensions\RequestExtensions.cs" />
     <Compile Include="Extensions\TempDataExtensions.cs" />
     <Compile Include="Extensions\UrlExtensions.cs" />
-    <Compile Include="HtmlHelpers.cs" />
+    <Compile Include="Extensions\HtmlHelpers.cs" />
     <Compile Include="SelectListQuery.cs" />
     <Compile Include="BaseProfileController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
