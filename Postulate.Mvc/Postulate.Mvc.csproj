@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Abstract\UserData.cs" />
     <Compile Include="BaseController.cs" />
+    <Compile Include="Extensions\IPrincipalExtensions.cs" />
     <Compile Include="Extensions\RequestExtensions.cs" />
     <Compile Include="Extensions\TempDataExtensions.cs" />
     <Compile Include="Extensions\UrlExtensions.cs" />
@@ -72,4 +73,7 @@
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>nuget pack "$(ProjectPath)" -properties Configuration=Release</PostBuildEvent>
+  </PropertyGroup>
 </Project>
