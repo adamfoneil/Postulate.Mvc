@@ -19,4 +19,4 @@ This library is a set of base classes and helpers for improving productivity in 
 
 ## What's the difference between BaseController.LoadUserData and BaseProfileController?
 
-BaseController.LoadUserData deserializes a class from a Json file from **~/App_Data/UserData/{userName}**. This is handy when you have user settings that you're too lazy to store in the database because they're too specific, complex, or rarely used. Just be sure you preserve the ~/App_Data folder when publishing! BaseProfileController is preferred for accessing user profile data that is universal in your app and that is strong-typed in the database.
+BaseController.LoadUserData deserializes a class from a Json file from **~/App_Data/UserData/{userName}/{[Filename](/Postulate.Mvc/Abstract/UserData.cs#L20)}**. This is handy when you have user settings that you're too lazy to store in the database because they're too specific, complex, or rarely used. Just be sure you preserve the ~/App_Data folder when publishing! BaseProfileController is preferred for accessing user profile data that is universal in your app and that is strong-typed in the database.
