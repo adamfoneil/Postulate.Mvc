@@ -16,3 +16,7 @@ This library is a set of base classes and helpers for improving productivity in 
 - [HtmlHelpers](/Postulate.Mvc/Extensions/HtmlHelpers.cs) provides some miscellaneous helpers. One in particular [ActionNameField](/Postulate.Mvc/Extensions/Helpers.cs#12) passes the current action name to a controller for easy redirect back to a failing page in case of an error.
 
 - [SelectListQuery](/Postulate.Mvc/SelectListQuery.cs) describes a query used to fill a drop down list, and is used by BaseController.FillSelectLists.
+
+## What's the difference between BaseController.LoadUserData and BaseProfileController?
+
+BaseController.LoadUserData deserializes a class from a Json file from **~/App_Data/UserData/{userName}**. This is handy when you have user settings that you're too lazy to store in the database because they're too specific, complex, or rarely used. Just be sure you preserve the ~/App_Data folder when publishing! BaseProfileController is preferred for accessing user profile data that is universal in your app and that is strong-typed in the database.
