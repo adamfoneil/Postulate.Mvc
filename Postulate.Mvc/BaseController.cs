@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Postulate.Mvc.Extensions;
+using Postulate.Mvc.Abstract;
 
 namespace Postulate.Mvc
 {
@@ -206,6 +207,11 @@ namespace Postulate.Mvc
             isDefaultValue = (defaultValue?.Equals(result) ?? true);
 
             return result;
+        }
+
+        protected T LoadUserData<T>() where T : UserData, new()
+        {
+            return UserData.Load<T>(Server, User.Identity.Name);
         }
     }
 }

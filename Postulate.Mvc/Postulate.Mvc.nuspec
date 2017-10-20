@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Postulate.Mvc</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Adam O'Neil</authors>
+    <owners>Adam O'Neil</owners>    
+    <projectUrl>https://github.com/adamosoftware/Postulate.Mvc</projectUrl>    
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Helpers, extensions, and base classes for ASP.NET MVC5 apps and Postulate.Orm</description>  
+    <copyright>Copyright (c) Adam O'Neil Software 2017</copyright>
+    <tags>aspnet mvc</tags>
+  </metadata>
+</package>
