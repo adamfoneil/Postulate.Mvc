@@ -199,6 +199,12 @@ namespace Postulate.Mvc
 
         private object GetSelectedValue(object record, PropertyInfo[] props, string valueProperty, out bool isDefaultValue)
         {
+            if (record == null)
+            {
+                isDefaultValue = false;
+                return null;
+            }
+
             var property = props.SingleOrDefault(pi => pi.Name.Equals(valueProperty));
             var result = property?.GetValue(record);
 
