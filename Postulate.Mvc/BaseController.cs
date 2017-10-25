@@ -18,8 +18,10 @@ namespace Postulate.Mvc
     public abstract class BaseController<TDb, TKey> : Controller where TDb : SqlServerDb<TKey>, new()        
     {
         private SqlServerDb<TKey> _db = new TDb();
+        private Exception _lastSaveException = null;
 
         protected SqlServerDb<TKey> Db { get { return _db; } }
+        protected Exception LastSaveException { get { return _lastSaveException; } }
 
         /// <summary>
         /// SelectListQueries to execute when FillSelectLists is called
@@ -84,7 +86,8 @@ namespace Postulate.Mvc
         }
 
         private void CaptureErrorMessage(Exception exc)
-        {                        
+        {
+            _lastSaveException = exc;
             TempData.RemoveAndAdd("error", exc.Message);            
 
             SaveException se = exc as SaveException;
