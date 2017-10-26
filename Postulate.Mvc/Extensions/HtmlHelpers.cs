@@ -31,25 +31,30 @@ namespace Postulate.Mvc.Extensions
             return hidden;
         }
 
-        public static MvcHtmlString YesNoDropdown(this HtmlHelper html, string fieldName, bool? value, string yesText = "Yes", string noText = "No", object htmlAttributes = null)
+        public static MvcHtmlString YesNoDropdown(this HtmlHelper html, string fieldName, bool? value, string nullText = "(select)", string yesText = "Yes", string noText = "No", object htmlAttributes = null)
         {
             TagBuilder select = new TagBuilder("select");
             select.MergeAttribute("name", fieldName);
             select.MergeAttribute("id", fieldName);
             if (htmlAttributes != null) select.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
 
-            select.InnerHtml = 
-                BlankOption() + 
-                YesNoDropdownOption(true, value, yesText) + 
+            select.InnerHtml =
+                BlankOption(nullText) +
+                YesNoDropdownOption(true, value, yesText) +
                 YesNoDropdownOption(false, value, noText);
 
             return MvcHtmlString.Create(select.ToString(TagRenderMode.Normal));
         }
 
-        private static string BlankOption()
+        public static MvcHtmlString YesNoDropdown(this HtmlHelper html, string fieldName, bool? value, string yesText = "Yes", string noText = "No", object htmlAttributes = null)
+        {
+            return YesNoDropdown(html, fieldName, value, "(select)", yesText, noText, htmlAttributes);
+        }
+
+        private static string BlankOption(string text)
         {
             TagBuilder option = new TagBuilder("option");
-            option.SetInnerText("(select)");
+            option.SetInnerText(text);
             return option.ToString(TagRenderMode.Normal);
         }
 
