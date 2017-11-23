@@ -19,6 +19,15 @@ namespace Postulate.Mvc
         /// </summary>
         protected Func<TProfile, bool> ProfileRule;
 
+        protected DateTime GetLocalTime()
+        {
+            using (var cn = Db.GetConnection())
+            {
+                cn.Open();
+                return _profile.GetLocalTime(cn);
+            }                
+        }
+
         /// <summary>
         /// Indicates where to redirect if current user has no TProfile record or if ProfileRule returns false
         /// </summary>
