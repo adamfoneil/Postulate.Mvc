@@ -1,5 +1,6 @@
 ﻿using Dapper;
-using Postulate.Orm;
+using Postulate.Mvc.Abstract;
+using Postulate.Mvc.Extensions;
 using Postulate.Orm.Abstract;
 using Postulate.Orm.Exceptions;
 using System;
@@ -10,26 +11,24 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Postulate.Mvc.Extensions;
-using Postulate.Mvc.Abstract;
 
 namespace Postulate.Mvc
 {
-    public abstract class BaseController<TDb, TKey> : Controller where TDb : SqlServerDb<TKey>, new()        
+    public abstract class BaseController<TDb, TKey> : Controller where TDb : SqlDb<TKey>, new()
     {
-        private SqlServerDb<TKey> _db = new TDb();
+        private SqlDb<TKey> _db = new TDb();
 
-        protected SqlServerDb<TKey> Db { get { return _db; } }
+        protected SqlDb<TKey> Db { get { return _db; } }
 
         /// <summary>
         /// SelectListQueries to execute when FillSelectLists is called
-        /// </summary>        
+        /// </summary>
         protected virtual IEnumerable<SelectListQuery> SelectListQueries(object record = null) { return null; }
 
         protected override void Initialize(RequestContext requestContext)
         {
             base.Initialize(requestContext);
-            _db.UserName = User.Identity.Name;            
+            _db.UserName = User.Identity.Name;
         }
 
         /// <summary>
@@ -55,7 +54,7 @@ namespace Postulate.Mvc
         protected bool SaveRecord<TRecord>(TRecord record) where TRecord : Record<TKey>, new()
         {
             try
-            {                
+            {
                 Db.Save(record);
                 return true;
             }
@@ -84,13 +83,13 @@ namespace Postulate.Mvc
         }
 
         private void CaptureErrorMessage(Exception exc)
-        {                        
-            TempData.RemoveAndAdd("error", exc.Message);            
+        {
+            TempData.RemoveAndAdd("error", exc.Message);
 
             SaveException se = exc as SaveException;
             if (se != null)
             {
-                TempData.RemoveAndAdd("command", se.CommandText);                
+                TempData.RemoveAndAdd("command", se.CommandText);
                 TempData.RemoveAndAdd("record", se.Record);
             }
         }
@@ -117,7 +116,7 @@ namespace Postulate.Mvc
                 cn.Open();
                 var builtInQueries = SelectListQueries(record);
                 FillSelectLists(cn, record, (builtInQueries != null) ?
-                    queries.Concat(builtInQueries) : 
+                    queries.Concat(builtInQueries) :
                     queries);
             }
         }
@@ -145,7 +144,7 @@ namespace Postulate.Mvc
                     if (missingItem != null) listItems.Insert(0, missingItem);
                 }
 
-                ViewData.Add(q.ViewDataKey, new SelectList(listItems, "Value", "Text", selectedValue));
+                ViewData.Add(q.GetType().Name, new SelectList(listItems, "Value", "Text", selectedValue));
             }
         }
 
@@ -176,10 +175,10 @@ namespace Postulate.Mvc
                     }
                 }
             }
-            
+
             return dp;
         }
-        
+
         private static bool IsSimpleType(Type type)
         {
             // thanks to http://stackoverflow.com/questions/2442534/how-to-test-if-type-is-primitive

@@ -1,36 +1,53 @@
-﻿using Postulate.Orm.Merge;
+﻿using Postulate.Mvc;
+using Postulate.Orm.Merge;
+using Postulate.Orm.SqlServer;
 using Sample.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Reflection;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace SampleWebApp.Controllers
 {
     [Authorize]
-    public class SchemaController : Controller
-    {        
+    public class SchemaController : BaseController<DemoDb, int>
+    {
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Merge()
+        public async Task<ActionResult> Merge()
         {
-            var sm = new SchemaMerge<DemoDb>();
-            sm.Compare();
-            return View(sm);
+            using (var cn = Db.GetConnection())
+            {
+                cn.Open();
+                var engine = new Engine<SqlServerSyntax>(Assembly.GetExecutingAssembly(), new Progress<MergeProgress>(ShowProgress));
+                var actions = await engine.CompareAsync(cn);
+                string script = engine.GetScript(cn, actions).ToString();
+                return View(script);
+            }
+        }
+
+        private void ShowProgress(MergeProgress obj)
+        {
+            // not much to do in web app
         }
 
         [HttpPost]
         [ActionName("Merge")]
-        public ActionResult MergeExecute()
+        public async Task<ActionResult> MergeExecute()
         {
             try
             {
-                var sm = new SchemaMerge<DemoDb>();
-                sm.Execute();
+                using (var cn = Db.GetConnection())
+                {
+                    cn.Open();
+                    var engine = new Engine<SqlServerSyntax>(Assembly.GetExecutingAssembly(), new Progress<MergeProgress>(ShowProgress));
+                    var actions = await engine.CompareAsync(cn);
+                    await engine.ExecuteAsync(cn, actions);
+                }                
+                
                 TempData.Add("success", "Schema merge executed successfully!");
             }
             catch (Exception exc)

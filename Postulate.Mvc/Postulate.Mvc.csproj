@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AoTestDataGen">
-      <Version>1.0.3</Version>
+      <Version>1.0.5</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.Mvc">
       <Version>5.2.3</Version>
@@ -65,11 +65,11 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>10.0.3</Version>
     </PackageReference>
-    <PackageReference Include="Postulate.Orm">
-      <Version>0.9.214</Version>
+    <PackageReference Include="Postulate.Orm.Core">
+      <Version>1.0.6</Version>
     </PackageReference>
-    <PackageReference Include="Postulate.Sql">
-      <Version>1.0.18</Version>
+    <PackageReference Include="Postulate.Orm.SqlServer">
+      <Version>1.0.6-beta</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

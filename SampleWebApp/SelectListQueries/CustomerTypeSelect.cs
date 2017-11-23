@@ -1,18 +1,17 @@
-﻿using System.Data;
+﻿using Sample.Models;
+using System.Data;
 using System.Web.Mvc;
-using Postulate.Mvc;
-using Sample.Models;
 
 namespace SampleWebApp.SelectListQueries
 {
-    public class CustomerTypeSelect : SelectListQuery
+    public class CustomerTypeSelect : SelectListQueryBase
     {
         public CustomerTypeSelect() : base(
-            @"SELECT [Id] AS [Value], [Name] AS [Text] 
-            FROM [dbo].[CustomerType] 
+            @"SELECT [Id] AS [Value], [Name] AS [Text]
+            FROM [dbo].[CustomerType]
             WHERE [OrganizationId]=@orgId AND [IsActive]=1
-            ORDER BY [Name]", 
-            "CustomerTypeList", "TypeId")
+            ORDER BY [Name]",
+            "TypeId")
         {
         }
 

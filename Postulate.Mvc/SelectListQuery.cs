@@ -1,6 +1,6 @@
 ﻿using Dapper;
+using Postulate.Orm.Abstract;
 using Postulate.Orm.Interfaces;
-using Postulate.Sql.Abstract;
 using System;
 using System.Data;
 using System.Web.Mvc;
@@ -10,28 +10,21 @@ namespace Postulate.Mvc
     /// <summary>
     /// Defines a query that returns items for a SelectList
     /// </summary>
-    public abstract class SelectListQuery
+    public abstract class SelectListQuery : Query<SelectListItem>
     {
-        private readonly string _sql;
-        private readonly string _viewDataKey;
+        private readonly string _sql;        
         private readonly string _valueProperty;
 
         /// <summary>
         /// Query must return columns Value and Text both strings
-        /// </summary>        
-        public SelectListQuery(string sql, string viewDataKey, string valueProperty)
-        {
-            _sql = sql;
-            _viewDataKey = viewDataKey;
-            _valueProperty = valueProperty;
-        }
-
-        public string Sql { get { return _sql; } }
-
-        /// <summary>
-        /// Key used in the ViewData dictionary within a Razor view
         /// </summary>
-        public string ViewDataKey { get { return _viewDataKey; } }
+        /// <param name="sql">Text of the query</param>
+        /// <param name="valueProperty">Name of property that stores the default value for the SelectList when rendered</param>
+        public SelectListQuery(string sql, string valueProperty, IDb db) : base(sql, db)
+        {
+            _sql = sql;            
+            _valueProperty = valueProperty;
+        }        
 
         /// <summary>
         /// Name of property that stores the default value for the SelectList when rendered
@@ -47,9 +40,9 @@ namespace Postulate.Mvc
             return null;
         }
 
-        public SelectList Execute(IDb db, object selectedValue = null)
+        public SelectList Execute(object selectedValue = null)
         {
-            using (var cn = db.GetConnection())
+            using (var cn = Db.GetConnection())
             {
                 cn.Open();
                 return Execute(cn, selectedValue);
@@ -58,7 +51,7 @@ namespace Postulate.Mvc
 
         public SelectList Execute(IDbConnection connection, object selectedValue = null)
         {
-            var items = connection.Query<SelectListItem>(Sql, this);
+            var items = Execute(connection);
             return new SelectList(items, "Value", "Text", selectedValue);
         }
     }

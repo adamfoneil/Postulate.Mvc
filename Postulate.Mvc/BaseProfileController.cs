@@ -1,24 +1,17 @@
-﻿using Postulate.Orm;
+﻿using Postulate.Orm.Abstract;
+using Postulate.Orm.Interfaces;
+using System;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Postulate.Orm.Abstract;
-using System;
-using Postulate.Orm.Exceptions;
-using System.Data;
-using Dapper;
-using System.Linq;
-using System.Reflection;
-using Postulate.Orm.Interfaces;
-using System.Collections.Generic;
 
 namespace Postulate.Mvc
 {
-    public abstract class BaseProfileController<TDb, TKey, TProfile> : BaseController<TDb, TKey>        
+    public abstract class BaseProfileController<TDb, TKey, TProfile> : BaseController<TDb, TKey>
         where TProfile : Record<TKey>, IUserProfile, new()
-        where TDb : SqlServerDb<TKey>, new()
-    {        
+        where TDb : SqlDb<TKey>, new()
+    {
         private TProfile _profile = null;
-        
+
         protected TProfile CurrentUser { get { return _profile; } }
 
         /// <summary>
@@ -33,12 +26,12 @@ namespace Postulate.Mvc
 
         protected override void Initialize(RequestContext requestContext)
         {
-            base.Initialize(requestContext);            
+            base.Initialize(requestContext);
             _profile = Db.FindUserProfile<TProfile>();
         }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        {            
+        {
             base.OnActionExecuting(filterContext);
 
             if (_profile == null || (_profile != null && (!

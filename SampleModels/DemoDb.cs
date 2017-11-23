@@ -1,9 +1,5 @@
-﻿using Postulate.Orm;
-using System;
-using System.Collections.Generic;
+﻿using Postulate.Orm.SqlServer;
 using System.Configuration;
-using System.Linq;
-using System.Web;
 
 namespace Sample.Models
 {

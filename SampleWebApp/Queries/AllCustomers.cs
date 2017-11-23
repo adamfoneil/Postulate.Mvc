@@ -1,4 +1,4 @@
-﻿using Postulate.Sql.Attributes;
+﻿using Postulate.Orm.Attributes;
 using System;
 
 namespace SampleWebApp.Queries

@@ -1,4 +1,4 @@
-﻿@model Postulate.Orm.Merge.SchemaMerge<DemoDb>
+﻿@model string
 
 @{
     ViewBag.Title = "Schema Merge";
@@ -9,32 +9,15 @@
 <p class="text-danger">@TempData["error"]</p>
 <p class="success">@TempData["success"]</p>
 
-@if (!Model.AllActions.Any())
+@if (string.IsNullOrEmpty(Model))
 {
     <p>There are no pending changes to apply.</p>
     return;
 }
 
-<ul>
-    @foreach (var action in Model.AllActions)
-    {
-        <li>
-            <p class="text-info">@action.ActionType @action.ObjectType @action.ToString()</p>
-            @foreach (var err in Model.AllValidationErrors[action])
-            {
-                <p class="text-danger">@err</p>
-            }
-            <ul>
-                @foreach (var cmd in Model.AllCommands[action])
-                {
-                    <li>
-                        <pre>@cmd</pre>
-                    </li>
-                }
-            </ul>
-        </li>
-    }
-</ul>
+<pre>
+    @Model
+</pre>
 
 @using (Html.BeginForm())
 {

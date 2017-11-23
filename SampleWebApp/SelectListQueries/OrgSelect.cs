@@ -1,14 +1,8 @@
-﻿using Postulate.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace SampleWebApp.SelectListQueries
+﻿namespace SampleWebApp.SelectListQueries
 {
-    public class OrgSelect : SelectListQuery
+    public class OrgSelect : SelectListQueryBase
     {
-        public OrgSelect() : base("SELECT [Id] AS [Value], [Name] AS [Text] FROM [dbo].[Organization] ORDER BY [Name]", "OrgSelect", "OrganizationId")
+        public OrgSelect() : base("SELECT [Id] AS [Value], [Name] AS [Text] FROM [dbo].[Organization] ORDER BY [Name]", "OrganizationId")
         {
         }
     }

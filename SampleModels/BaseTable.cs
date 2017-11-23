@@ -28,16 +28,16 @@ namespace Sample.Models
         [ColumnAccess(Access.UpdateOnly)]
         public DateTime? DateModified { get; set; }
 
-        public override void BeforeSave(IDbConnection connection, string userName, SaveAction action)
+        public override void BeforeSave(IDbConnection connection, SqlDb<int> db, SaveAction action)
         {
             switch (action)
             {
                 case SaveAction.Insert:
-                    CreatedBy = userName;
+                    CreatedBy = db.UserName;
                     break;
 
                 case SaveAction.Update:
-                    ModifiedBy = userName;
+                    ModifiedBy = db.UserName;
                     DateModified = DateTime.Now;
                     break;
             }
