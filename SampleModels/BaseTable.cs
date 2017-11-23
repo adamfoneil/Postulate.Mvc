@@ -1,12 +1,9 @@
 ﻿using Postulate.Orm.Abstract;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using Postulate.Orm.Enums;
-using System.Data;
 using Postulate.Orm.Attributes;
+using Postulate.Orm.Enums;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
 
 namespace Sample.Models
 {

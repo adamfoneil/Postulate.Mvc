@@ -1,10 +1,5 @@
 ﻿using Postulate.Orm.Attributes;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sample.Models
 {
@@ -18,7 +13,7 @@ namespace Sample.Models
         [MaxLength(50)]
         [PrimaryKey]
         public string Name { get; set; }
-        
+
         public bool IsActive { get; set; } = true;
     }
 }

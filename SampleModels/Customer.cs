@@ -1,7 +1,7 @@
-﻿using Postulate.Orm.Attributes;
+﻿using Postulate.Orm.Abstract;
+using Postulate.Orm.Attributes;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
-using Postulate.Orm.Abstract;
 
 namespace Sample.Models
 {
@@ -30,7 +30,7 @@ namespace Sample.Models
 
         public override bool AllowDelete(IDbConnection connection, SqlDb<int> db, out string message)
         {
-            if (db.UserName.Equals("adamosoftware@gmail.com"))            
+            if (db.UserName.Equals("adamosoftware@gmail.com"))
             {
                 message = "Adam is not allowed to delete customers.";
                 return false;

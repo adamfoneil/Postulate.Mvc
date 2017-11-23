@@ -1,8 +1,8 @@
-﻿using System;
-using System.Data;
+﻿using Postulate.Orm.Attributes;
 using Postulate.Orm.Interfaces;
-using Postulate.Orm.Attributes;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 
 namespace Sample.Models
 {
