@@ -9,7 +9,9 @@ using Postulate.Orm.SqlServer;
 using Sample.Models;
 using System;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 
 [assembly: OwinStartupAttribute(typeof(SampleWebApp.Startup))]
 namespace SampleWebApp
@@ -19,6 +21,12 @@ namespace SampleWebApp
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+
+            var assemblies = Assembly.GetExecutingAssembly().GetReferencedAssemblies();
+            foreach (var a in assemblies)
+            {
+                Debug.WriteLine(a.Name);
+            }
 
             var db = new DemoDb() { UserName = "startup" };
             db.CreateIfNotExists((cn, created) =>
@@ -34,14 +42,9 @@ namespace SampleWebApp
 
         private static void CreateBaseTables(IDbConnection cn)
         {
-            new Engine<SqlServerSyntax>(new Type[]
-            {
-                typeof(Customer),
-                typeof(CustomerType),
-                typeof(Organization),
-                typeof(Region),
-                typeof(UserProfile)
-            }).ExecuteAsync(cn).Wait();
+            var assemblyName = Assembly.GetExecutingAssembly().GetReferencedAssemblies().Single(a => a.Name.Equals("SampleModels"));
+            var types = Engine<SqlServerSyntax>.GetModelTypes(Assembly.Load(assemblyName));
+            new Engine<SqlServerSyntax>(types).ExecuteAsync(cn).Wait();
         }
 
         private void CreateRandomData(IDbConnection cn, SqlDb<int> db)
