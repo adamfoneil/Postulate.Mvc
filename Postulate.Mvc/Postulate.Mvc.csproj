@@ -43,11 +43,17 @@
   <ItemGroup>
     <Compile Include="Abstract\UserData.cs" />
     <Compile Include="BaseController.cs" />
+    <Compile Include="Extensions\DynamicExtensions.cs" />
     <Compile Include="Extensions\IPrincipalExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\RequestExtensions.cs" />
     <Compile Include="Extensions\TempDataExtensions.cs" />
     <Compile Include="Extensions\UrlExtensions.cs" />
     <Compile Include="Extensions\HtmlHelpers.cs" />
+    <Compile Include="Helpers\BuildSelectOptions.cs" />
+    <Compile Include="Helpers\Enclosable.cs" />
+    <Compile Include="Helpers\EnumDropDownList.cs" />
+    <Compile Include="Helpers\GridEditor.cs" />
     <Compile Include="SelectListQuery.cs" />
     <Compile Include="BaseProfileController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,6 +77,9 @@
     <PackageReference Include="Postulate.Orm.SqlServer">
       <Version>1.0.7-beta</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\GridEditor.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
