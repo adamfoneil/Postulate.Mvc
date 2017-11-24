@@ -71,7 +71,7 @@ namespace SampleWebApp
                     db.Save(record);
                 });
 
-            // not every org will have CustomerTypes generated, and when generating customers, we need to pick only those orgs that have at least one CustomerType
+            // not every org will have CustomerTypes generated -- so, when generating customers, we need to pick only those orgs that have at least one CustomerType
             int[] customerOrgIds = cn.Query<int>("SELECT [Id] FROM [dbo].[Organization] [org] WHERE EXISTS(SELECT 1 FROM [dbo].[CustomerType] WHERE [OrganizationId]=[org].[Id])").ToArray();
             CustomerType[] customerTypes = cn.Query<CustomerType>("SELECT * FROM [dbo].[CustomerType]").ToArray();
             int[] regionIds = cn.Query<int>("SELECT [Id] FROM [dbo].[Region]").ToArray();
@@ -82,6 +82,9 @@ namespace SampleWebApp
                 c.LastName = tdg.Random(Source.LastName);
                 c.FirstName = tdg.Random(Source.FirstName);
                 c.Address = tdg.Random(Source.Address);
+                c.City = tdg.Random(Source.City);
+                c.State = tdg.Random(Source.USState);
+                c.ZipCode = tdg.Random(Source.USZipCode);
                 c.TypeId = tdg.Random<CustomerType>(customerTypes, t => t.OrganizationId == c.OrganizationId).Id;
                 c.RegionId = tdg.Random(regionIds);
                 c.CreatedBy = "random";

@@ -22,6 +22,15 @@ namespace Sample.Models
         [MaxLength(100)]
         public string Address { get; set; }
 
+        [MaxLength(50)]
+        public string City { get; set; }
+
+        [MaxLength(2)]
+        public string State { get; set; }
+
+        [MaxLength(5)]
+        public string ZipCode { get; set; }
+
         [ForeignKey(typeof(CustomerType))]
         public int TypeId { get; set; }
 
