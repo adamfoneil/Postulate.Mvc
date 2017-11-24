@@ -7,13 +7,12 @@ using Postulate.Orm.Extensions;
 using Postulate.Orm.Merge;
 using Postulate.Orm.SqlServer;
 using Sample.Models;
-using System;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
 [assembly: OwinStartupAttribute(typeof(SampleWebApp.Startup))]
+
 namespace SampleWebApp
 {
     public partial class Startup
@@ -21,12 +20,6 @@ namespace SampleWebApp
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-
-            var assemblies = Assembly.GetExecutingAssembly().GetReferencedAssemblies();
-            foreach (var a in assemblies)
-            {
-                Debug.WriteLine(a.Name);
-            }
 
             var db = new DemoDb() { UserName = "startup" };
             db.CreateIfNotExists((cn, created) =>
@@ -49,8 +42,8 @@ namespace SampleWebApp
 
         private void CreateRandomData(IDbConnection cn, SqlDb<int> db)
         {
-            var tdg = new TestDataGenerator();            
-            
+            var tdg = new TestDataGenerator();
+
             tdg.GenerateUpTo<Organization>(cn, 10,
                 connection => connection.QuerySingle<int?>("SELECT COUNT(1) FROM [dbo].[Organization]") ?? 0,
                 o =>
@@ -82,7 +75,7 @@ namespace SampleWebApp
             // not every org will have CustomerTypes generated, and when generating customers, we need to pick only those orgs that have at least one CustomerType
             int[] customerOrgIds = cn.Query<int>("SELECT [Id] FROM [dbo].[Organization] [org] WHERE EXISTS(SELECT 1 FROM [dbo].[CustomerType] WHERE [OrganizationId]=[org].[Id])").ToArray();
             CustomerType[] customerTypes = cn.Query<CustomerType>("SELECT * FROM [dbo].[CustomerType]").ToArray();
-            int[] regionIds = cn.Query<int>("SELECT [Id] FROM [dbo].[Region]").ToArray();            
+            int[] regionIds = cn.Query<int>("SELECT [Id] FROM [dbo].[Region]").ToArray();
 
             tdg.Generate<Customer>(100, (c) =>
             {
