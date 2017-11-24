@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace Postulate.Mvc.Helpers
 {
-    public static partial class TagHelpers
+    public static partial class HtmlHelpers
     {
         public static void BuildSelectListOptions(this TagBuilder selectTag, MultiSelectList selectList, object selectedValue)
         {

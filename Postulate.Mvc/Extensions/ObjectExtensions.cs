@@ -22,7 +22,7 @@ namespace Postulate.Mvc.Extensions
             return @object;
         }
 
-        public static IDictionary<string, object> ToDictionary(this object source, BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+        public static IDictionary<string, object> ConvertToDictionary(this object source, BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
         {
             return source.GetType().GetProperties(bindingAttr).Where(p => DynamicExtensions.IsSimpleType(p.PropertyType)).ToDictionary
             (

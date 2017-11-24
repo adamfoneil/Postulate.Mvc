@@ -48,7 +48,7 @@ namespace Postulate.Mvc.Helpers
             _selectLists.Add(name, selectList);
         }
 
-        public string RowID(TRecord dataRow)
+        public string RowId(TRecord dataRow)
         {
             _newRowContext = null;
             _dataRow = dataRow;
@@ -57,7 +57,7 @@ namespace Postulate.Mvc.Helpers
             return _trID;
         }
 
-        public string NewRowID(string context = null)
+        public string NewRowId(string context = null)
         {
             _newRowContext = context;
             _dataRow = null;
@@ -489,7 +489,7 @@ namespace Postulate.Mvc.Helpers
 
             if (_defaults != null)
             {
-                var results = _defaults.ToDictionary();
+                var results = _defaults.ConvertToDictionary();
                 hiddenDefaults = results.Where(kvp => !_propertyNames.Contains(kvp.Key)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
                 return (results.Count() > 0);
             }

@@ -49,11 +49,12 @@
     <Compile Include="Extensions\RequestExtensions.cs" />
     <Compile Include="Extensions\TempDataExtensions.cs" />
     <Compile Include="Extensions\UrlExtensions.cs" />
-    <Compile Include="Extensions\HtmlHelpers.cs" />
+    <Compile Include="Helpers\NavFields.cs" />
     <Compile Include="Helpers\BuildSelectOptions.cs" />
     <Compile Include="Helpers\Enclosable.cs" />
     <Compile Include="Helpers\EnumDropDownList.cs" />
     <Compile Include="Helpers\GridEditor.cs" />
+    <Compile Include="Helpers\YesNoDropdown.cs" />
     <Compile Include="SelectListQuery.cs" />
     <Compile Include="BaseProfileController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
