@@ -7,7 +7,7 @@ using Postulate.Orm.Abstract;
 
 namespace Sample.Models
 {
-    [TrackChanges]
+    [TrackChanges(IgnoreProperties = "DateModified,ModifiedBy")]
     public class UserProfile : BaseTable, IUserProfile
     {
         [MaxLength(100)]
@@ -15,8 +15,8 @@ namespace Sample.Models
         [ColumnAccess(Access.InsertOnly)]
         public string UserName { get; set; }
 
-        [ForeignKey(typeof(Organization))]
-        public int OrganizationId { get; set; }
+        [ForeignKey(typeof(Organization))]        
+        public int CurrentOrgId { get; set; }
 
         [DefaultExpression("0")]
         public bool TrackNavigation { get; set; }

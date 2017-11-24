@@ -5,10 +5,11 @@
     @Html.Hidden("Id", Model.Id)
     @Html.Hidden("UserName", Model.UserName)
 
-    <label>
+    <label class="control-label">
         Organization:
-        @Html.DropDownList("OrganizationId", ViewBag.OrgSelect as SelectList, "(select)", new { required = "required" })
+        @Html.DropDownList("CurrentOrgId", ViewBag.OrgSelect as SelectList, "(select)", new { required = "required", @class = "form-control" })
     </label>
 
-    <input type="submit" value="Save"/>
+    <hr/>
+    <input type="submit" value="Save" class="btn btn-primary"/>
 }

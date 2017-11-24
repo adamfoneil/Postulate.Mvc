@@ -14,7 +14,7 @@ namespace SampleWebApp.Controllers
         {
             FillSelectLists(query);
 
-            query.OrgId = CurrentUser.OrganizationId;
+            query.OrgId = CurrentUser.CurrentOrgId;
             var list = query.Execute();
             return View(list);
         }
@@ -26,7 +26,7 @@ namespace SampleWebApp.Controllers
                 new RegionSelect(),
                 new CustomerTypeSelect()
             };
-        }
+        }        
 
         public ActionResult Create(Customer record)
         {
@@ -46,7 +46,7 @@ namespace SampleWebApp.Controllers
 
         public ActionResult Save(Customer record, string actionName)
         {
-            record.OrganizationId = CurrentUser.OrganizationId;
+            record.OrganizationId = CurrentUser.CurrentOrgId;
 
             if (SaveRecord(record)) return RedirectToAction("Edit", new { id = record.Id });
 
