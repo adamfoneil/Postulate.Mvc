@@ -2,7 +2,7 @@
 
 Nuget package: **Postulate.Mvc**
 
-[ Note, this package currently depends on Postulate.Orm version 0.9.220, which is tied to SQL Server. I'm in the process of refactoring this for MySQL and SQL Server parity as well as adding a lot of features! ]
+[ Note, this package currently depends on Postulate.Orm version 0.9.220, which is tied to SQL Server. I'm in the process of refactoring this for MySQL and SQL Server parity as well as adding a lot of new features! ]
 
 This library is a set of base classes and helpers for improving productivity in ASP.NET MVC5 when used with [Postulate.Orm](https://github.com/adamosoftware/Postulate.Orm).
 
