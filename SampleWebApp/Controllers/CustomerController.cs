@@ -12,6 +12,8 @@ namespace SampleWebApp.Controllers
     {
         public ActionResult Index(AllCustomers query)
         {
+            query.OrgId = CurrentUser.CurrentOrgId;
+
             FillSelectLists(query);
 
             query.OrgId = CurrentUser.CurrentOrgId;
