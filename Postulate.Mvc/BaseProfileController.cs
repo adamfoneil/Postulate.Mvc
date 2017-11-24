@@ -1,4 +1,5 @@
-﻿using Postulate.Orm.Abstract;
+﻿using Postulate.Mvc.Extensions;
+using Postulate.Orm.Abstract;
 using Postulate.Orm.Interfaces;
 using System;
 using System.Web.Mvc;
@@ -31,7 +32,7 @@ namespace Postulate.Mvc
         /// <summary>
         /// Indicates where to redirect if current user has no TProfile record or if ProfileRule returns false
         /// </summary>
-        protected abstract string ProfileUpdateUrl { get; }
+        protected abstract ActionResult ProfileUpdateRedirect { get; }
 
         protected override void Initialize(RequestContext requestContext)
         {
@@ -41,13 +42,11 @@ namespace Postulate.Mvc
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            base.OnActionExecuting(filterContext);
+            base.OnActionExecuting(filterContext);                        
 
-            if (_profile == null || (_profile != null && (!
-                ProfileRule?.Invoke(_profile) ?? true)))
+            if (_profile == null || (!ProfileRule?.Invoke(_profile) ?? true))
             {
-                // thanks to https://stackoverflow.com/questions/32925219/how-to-create-a-custom-attribute-that-will-redirect-to-login-if-it-returns-false
-                filterContext.Result = new RedirectResult(ProfileUpdateUrl);
+                filterContext.Result = ProfileUpdateRedirect;
             }
         }
     }

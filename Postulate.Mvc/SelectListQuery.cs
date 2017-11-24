@@ -45,14 +45,9 @@ namespace Postulate.Mvc
             using (var cn = Db.GetConnection())
             {
                 cn.Open();
-                return Execute(cn, selectedValue);
+                var list = base.Execute(cn);
+                return new SelectList(list, "Value", "Text", selectedValue);
             }
-        }
-
-        public SelectList Execute(IDbConnection connection, object selectedValue = null)
-        {
-            var items = Execute(connection);
-            return new SelectList(items, "Value", "Text", selectedValue);
         }
     }
 }
