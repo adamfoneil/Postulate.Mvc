@@ -20,27 +20,33 @@ namespace SampleWebApp
         {
             ConfigureAuth(app);
 
-            var db = new DemoDb() { UserName = "system" };
-            db.CreateIfNotExists((cn) =>
+            var db = new DemoDb() { UserName = "startup" };
+            db.CreateIfNotExists((cn, created) =>
             {
-                new Engine<SqlServerSyntax>(new Type[]
+                if (created)
                 {
-                    typeof(Customer), typeof(CustomerType), typeof(Organization), typeof(Region), typeof(UserProfile)
-                }).ExecuteAsync(cn).Wait();                
-
-                new RegionSeedData().Generate(cn, db);
-
-                GenerateRandomData(cn, db);
+                    CreateBaseTables(cn);
+                    new RegionSeedData().Generate(cn, db);
+                    CreateRandomData(cn, db);
+                }
             });
         }
 
-        private void GenerateRandomData(IDbConnection cn, SqlDb<int> db)
+        private static void CreateBaseTables(IDbConnection cn)
         {
-            var tdg = new TestDataGenerator();
+            new Engine<SqlServerSyntax>(new Type[]
+            {
+                typeof(Customer),
+                typeof(CustomerType),
+                typeof(Organization),
+                typeof(Region),
+                typeof(UserProfile)
+            }).ExecuteAsync(cn).Wait();
+        }
 
-            int[] orgIds = null;
-            CustomerType[] customerTypes = null;
-            int[] regionIds = null;
+        private void CreateRandomData(IDbConnection cn, SqlDb<int> db)
+        {
+            var tdg = new TestDataGenerator();            
             
             tdg.GenerateUpTo<Organization>(cn, 10,
                 connection => connection.QuerySingle<int?>("SELECT COUNT(1) FROM [dbo].[Organization]") ?? 0,
@@ -52,13 +58,14 @@ namespace SampleWebApp
                 {
                     db.SaveMultiple(records);
                 });
-            
+
+            int[] allOrgIds = cn.Query<int>("SELECT [Id] FROM [dbo].[Organization] [org]").ToArray();
 
             tdg.GenerateUniqueUpTo<CustomerType>(cn, 25,
                 connection => connection.QuerySingle<int?>("SELECT COUNT(1) FROM [dbo].[CustomerType]") ?? 0,
                 ct =>
                 {
-                    ct.OrganizationId = tdg.Random(orgIds);
+                    ct.OrganizationId = tdg.Random(allOrgIds);
                     ct.Name = tdg.Random(Source.WidgetName);
                     ct.CreatedBy = "random";
                 }, (connection, ct) =>
@@ -69,13 +76,14 @@ namespace SampleWebApp
                     db.Save(record);
                 });
 
-            orgIds = cn.Query<int>("SELECT [Id] FROM [dbo].[Organization] [org] WHERE EXISTS(SELECT 1 FROM [dbo].[CustomerType] WHERE [OrganizationId]=[org].[Id])").ToArray();
-            customerTypes = cn.Query<CustomerType>("SELECT * FROM [dbo].[CustomerType]").ToArray();
-            regionIds = cn.Query<int>("SELECT [Id] FROM [dbo].[Region]").ToArray();            
+            // not every org will have CustomerTypes generated, and when generating customers, we need to pick only those orgs that have at least one CustomerType
+            int[] customerOrgIds = cn.Query<int>("SELECT [Id] FROM [dbo].[Organization] [org] WHERE EXISTS(SELECT 1 FROM [dbo].[CustomerType] WHERE [OrganizationId]=[org].[Id])").ToArray();
+            CustomerType[] customerTypes = cn.Query<CustomerType>("SELECT * FROM [dbo].[CustomerType]").ToArray();
+            int[] regionIds = cn.Query<int>("SELECT [Id] FROM [dbo].[Region]").ToArray();            
 
             tdg.Generate<Customer>(100, (c) =>
             {
-                c.OrganizationId = tdg.Random(orgIds);
+                c.OrganizationId = tdg.Random(customerOrgIds);
                 c.LastName = tdg.Random(Source.LastName);
                 c.FirstName = tdg.Random(Source.FirstName);
                 c.Address = tdg.Random(Source.Address);
