@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\UserData.cs" />
-    <Compile Include="BaseController.cs" />
+    <Compile Include="ControllerBase.cs" />
     <Compile Include="Extensions\DynamicExtensions.cs" />
     <Compile Include="Extensions\IPrincipalExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
@@ -56,7 +56,7 @@
     <Compile Include="Helpers\GridEditor.cs" />
     <Compile Include="Helpers\YesNoDropdown.cs" />
     <Compile Include="SelectListQuery.cs" />
-    <Compile Include="BaseProfileController.cs" />
+    <Compile Include="ProfileControllerBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,10 +73,10 @@
       <Version>10.0.3</Version>
     </PackageReference>
     <PackageReference Include="Postulate.Orm.Core">
-      <Version>1.0.8</Version>
+      <Version>1.0.9</Version>
     </PackageReference>
     <PackageReference Include="Postulate.Orm.SqlServer">
-      <Version>1.0.7-beta</Version>
+      <Version>1.0.8-beta</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

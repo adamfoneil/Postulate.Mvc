@@ -1,5 +1,4 @@
-﻿using Postulate.Mvc.Extensions;
-using Postulate.Orm.Abstract;
+﻿using Postulate.Orm.Abstract;
 using Postulate.Orm.Interfaces;
 using System;
 using System.Web.Mvc;
@@ -7,7 +6,7 @@ using System.Web.Routing;
 
 namespace Postulate.Mvc
 {
-    public abstract class BaseProfileController<TDb, TKey, TProfile> : BaseController<TDb, TKey>
+    public abstract class ProfileControllerBase<TDb, TKey, TProfile> : ControllerBase<TDb, TKey>
         where TProfile : Record<TKey>, IUserProfile, new()
         where TDb : SqlDb<TKey>, new()
     {
@@ -16,9 +15,9 @@ namespace Postulate.Mvc
         protected TProfile CurrentUser { get { return _profile; } }
 
         /// <summary>
-        /// Specifies what a well-formed profile must have
+        /// Specifies the criteria for a well-formed user profile
         /// </summary>
-        protected Func<TProfile, bool> ProfileRule;
+        protected abstract Func<TProfile, bool> ProfileRule { get; }
 
         /// <summary>
         /// Indicates where to redirect if current user has no TProfile record or if ProfileRule returns false
@@ -33,9 +32,9 @@ namespace Postulate.Mvc
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            base.OnActionExecuting(filterContext);                        
+            base.OnActionExecuting(filterContext);
 
-            if (_profile == null || (!ProfileRule?.Invoke(_profile) ?? true))
+            if (_profile == null || !ProfileRule.Invoke(_profile))
             {
                 filterContext.Result = ProfileUpdateRedirect;
             }

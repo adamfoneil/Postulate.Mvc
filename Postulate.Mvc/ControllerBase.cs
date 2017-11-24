@@ -14,7 +14,7 @@ using System.Web.Routing;
 
 namespace Postulate.Mvc
 {
-    public abstract class BaseController<TDb, TKey> : Controller where TDb : SqlDb<TKey>, new()
+    public abstract class ControllerBase<TDb, TKey> : Controller where TDb : SqlDb<TKey>, new()
     {
         private SqlDb<TKey> _db = new TDb();
 
