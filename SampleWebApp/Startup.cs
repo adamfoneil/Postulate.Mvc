@@ -12,7 +12,6 @@ using System.Linq;
 using System.Reflection;
 
 [assembly: OwinStartupAttribute(typeof(SampleWebApp.Startup))]
-
 namespace SampleWebApp
 {
     public partial class Startup
