@@ -108,7 +108,9 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Postulate.Orm.Core, Version=1.0.8.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Postulate.Orm.Core, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Postulate.Orm.Core.1.0.8\lib\net461\Postulate.Orm.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Postulate.Orm.SqlServer, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Postulate.Orm.SqlServer.1.0.7-beta\lib\net461\Postulate.Orm.SqlServer.dll</HintPath>
     </Reference>
@@ -200,6 +202,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="ControllerBase.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

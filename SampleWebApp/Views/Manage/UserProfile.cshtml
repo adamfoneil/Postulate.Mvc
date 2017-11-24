@@ -3,6 +3,7 @@
 @using (Html.BeginForm("SaveProfile", "Manage"))
 {
     @Html.Hidden("Id", Model.Id)
+    @Html.Hidden("UserName", Model.UserName)
 
     <label>
         Organization:

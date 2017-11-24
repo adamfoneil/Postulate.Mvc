@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using SampleWebApp.Models;
 using Sample.Models;
 using SampleWebApp.SelectListQueries;
+using System.Web.Routing;
 
 namespace SampleWebApp.Controllers
 {
@@ -19,6 +20,12 @@ namespace SampleWebApp.Controllers
         private ApplicationUserManager _userManager;
 
         private DemoDb _db = new DemoDb();
+
+        protected override void Initialize(RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+            _db.UserName = User.Identity.Name;
+        }
 
         public ManageController()
         {
@@ -66,6 +73,7 @@ namespace SampleWebApp.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : message == ManageMessageId.ProfileMissing ? "You were redirected here because your profile is not setup completely. Please fill out the form below:"
+                : message == ManageMessageId.ProfileUpdated ? "Profile successfully updated"
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -83,7 +91,7 @@ namespace SampleWebApp.Controllers
         public ActionResult UserProfile()
         {
             _db.UserName = User.Identity.Name;
-            var profile = _db.FindUserProfile<UserProfile>();
+            var profile = _db.FindUserProfile<UserProfile>() ?? new UserProfile() { UserName = _db.UserName };
 
             ViewBag.OrgSelect = new OrgSelect().Execute(profile?.OrganizationId);
 
@@ -92,10 +100,8 @@ namespace SampleWebApp.Controllers
 
         public ActionResult SaveProfile(UserProfile record)
         {
-            _db.UserName = User.Identity.Name;
-            record.UserName = _db.UserName;
-            _db.Save(record);
-            return RedirectToAction("Index");
+            _db.Save(record);                        
+            return RedirectToAction("Index", new { message = ManageMessageId.ProfileUpdated });
         }
 
         //
@@ -405,7 +411,8 @@ namespace SampleWebApp.Controllers
             RemoveLoginSuccess,
             RemovePhoneSuccess,
             Error,
-            ProfileMissing
+            ProfileMissing,
+            ProfileUpdated
         }
 
 #endregion
