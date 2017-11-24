@@ -1,6 +1,7 @@
 ﻿using Postulate.Orm.Abstract;
 using Postulate.Orm.Attributes;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 
 namespace Sample.Models
@@ -8,7 +9,7 @@ namespace Sample.Models
     [TrackChanges(IgnoreProperties = "ModifiedBy,DateModified")]
     public class Customer : BaseTable
     {
-        [ForeignKey(typeof(Organization))]
+        [Postulate.Orm.Attributes.ForeignKey(typeof(Organization))]
         public int OrganizationId { get; set; }
 
         [MaxLength(100)]
@@ -31,11 +32,18 @@ namespace Sample.Models
         [MaxLength(5)]
         public string ZipCode { get; set; }
 
-        [ForeignKey(typeof(CustomerType))]
+        [Postulate.Orm.Attributes.ForeignKey(typeof(CustomerType))]
         public int TypeId { get; set; }
 
-        [ForeignKey(typeof(Region))]
+        [Postulate.Orm.Attributes.ForeignKey(typeof(Region))]
         public int RegionId { get; set; }
+
+        [NotMapped]
+        public string CustomerTypeName { get; set; }
+
+        [NotMapped]
+        public string RegionName { get; set; }
+
 
         public override bool AllowDelete(IDbConnection connection, SqlDb<int> db, out string message)
         {

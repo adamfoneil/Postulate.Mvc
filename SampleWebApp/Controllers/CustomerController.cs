@@ -1,21 +1,15 @@
 ﻿using Postulate.Mvc;
 using Sample.Models;
-using System.Web.Mvc;
 using SampleWebApp.Queries;
 using SampleWebApp.SelectListQueries;
 using System.Collections.Generic;
-using Dapper;
-using System.Linq;
-using AdamOneilSoftware;
-using System;
-using Postulate.Orm.Extensions;
-using static SampleWebApp.Controllers.ManageController;
+using System.Web.Mvc;
 
 namespace SampleWebApp.Controllers
 {
     [Authorize]
     public class CustomerController : ControllerBase
-    {        
+    {
         public ActionResult Index(AllCustomers query)
         {
             FillSelectLists(query);
@@ -23,8 +17,8 @@ namespace SampleWebApp.Controllers
             query.OrgId = CurrentUser.OrganizationId;
             var list = query.Execute();
             return View(list);
-        }        
-        
+        }
+
         protected override IEnumerable<SelectListQuery> SelectListQueries(object record = null)
         {
             return new SelectListQuery[]
@@ -48,7 +42,7 @@ namespace SampleWebApp.Controllers
             FillSelectLists(record);
 
             return View(record);
-        }        
+        }
 
         public ActionResult Save(Customer record, string actionName)
         {
@@ -74,7 +68,7 @@ namespace SampleWebApp.Controllers
             if (DeleteRecord<Customer>(id)) return RedirectToAction("Index");
 
             return RedirectToAction("Delete", new { id = id });
-        }        
+        }
 
         public ActionResult Changes(int id)
         {

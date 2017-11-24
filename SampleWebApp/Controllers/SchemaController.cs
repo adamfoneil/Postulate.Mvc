@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace SampleWebApp.Controllers
 {
     [Authorize]
-    public class SchemaController : BaseController<DemoDb, int>
+    public class SchemaController : ControllerBase<DemoDb, int>
     {
         public ActionResult Index()
         {

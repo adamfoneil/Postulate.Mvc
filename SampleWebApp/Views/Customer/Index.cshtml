@@ -14,8 +14,8 @@
             <td>Region:</td>
         </tr>
         <tr>
-            <td>@Html.DropDownList("TypeId", ViewData["CustomerTypeList"] as SelectList, "(all)", new { onchange = "this.form.submit();" })</td>
-            <td>@Html.DropDownList("RegionId", ViewData["RegionList"] as SelectList, "(all)", new { onchange = "this.form.submit();" })</td>            
+            <td>@Html.DropDownList("TypeId", ViewData["CustomerTypeSelect"] as SelectList, "(all)", new { onchange = "this.form.submit();" })</td>
+            <td>@Html.DropDownList("RegionId", ViewData["RegionSelect"] as SelectList, "(all)", new { onchange = "this.form.submit();" })</td>            
         </tr>
     </table>
 }

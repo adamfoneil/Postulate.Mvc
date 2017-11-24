@@ -21,7 +21,7 @@ namespace Sample.Models
         [DefaultExpression("0")]
         public bool TrackNavigation { get; set; }
 
-        public DateTime GetLocalTime(IDbConnection connection)
+        public DateTime GetLocalTime()
         {
             return DateTime.Now;
         }
