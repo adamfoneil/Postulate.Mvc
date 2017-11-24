@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ViewCustomer>
+﻿@model IEnumerable<Customer>
 
 @{
     ViewBag.Title = "Index";
@@ -8,16 +8,15 @@
 
 @using (Html.BeginForm("Index", "Customer", FormMethod.Get))
 {
-    <table>
-        <tr>
-            <td>Type:</td>
-            <td>Region:</td>
-        </tr>
-        <tr>
-            <td>@Html.DropDownList("TypeId", ViewData["CustomerTypeSelect"] as SelectList, "(all)", new { onchange = "this.form.submit();" })</td>
-            <td>@Html.DropDownList("RegionId", ViewData["RegionSelect"] as SelectList, "(all)", new { onchange = "this.form.submit();" })</td>            
-        </tr>
-    </table>
+    <div class="col-sm-6">
+        <label class="control-label">Type:</label>
+        @Html.DropDownList("TypeId", ViewData["CustomerTypeSelect"] as SelectList, "(all)", new { onchange = "this.form.submit();", @class = "form-control" })
+    </div>
+
+    <div class="col-sm-6">
+        <label class="control-label">Region:</label>
+        @Html.DropDownList("RegionId", ViewData["RegionSelect"] as SelectList, "(all)", new { onchange = "this.form.submit();", @class = "form-control" })
+    </div>
 }
 
 <table class="table">
@@ -25,6 +24,8 @@
         <th>Last Name</th>
         <th>First Name</th>
         <th>Address</th>
+        <th>City</th>
+        <th>State</th>
         <th>Region</th>
         <th>Type</th>
         <th></th>
@@ -35,6 +36,8 @@
             <td>@item.LastName</td>
             <td>@item.FirstName</td>
             <td>@item.Address</td>
+            <td>@item.City</td>
+            <td>@item.State</td>
             <td>@item.RegionName</td>
             <td>@item.CustomerTypeName</td>
             <td>

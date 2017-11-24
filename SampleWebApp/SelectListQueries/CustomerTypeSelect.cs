@@ -15,6 +15,8 @@ namespace SampleWebApp.SelectListQueries
         {
         }
 
+        public int OrgId { get; set; }
+
         /// <summary>
         /// If an inactive customer type was used, this will get it in order to populate the dropdown -- otherwise, the field will look empty in the view
         /// </summary>

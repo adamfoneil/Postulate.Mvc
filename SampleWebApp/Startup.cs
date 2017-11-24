@@ -43,7 +43,7 @@ namespace SampleWebApp
         {
             var tdg = new TestDataGenerator();
 
-            tdg.GenerateUpTo<Organization>(cn, 10,
+            tdg.GenerateUpTo<Organization>(cn, 15,
                 connection => connection.QuerySingle<int?>("SELECT COUNT(1) FROM [dbo].[Organization]") ?? 0,
                 o =>
                 {
@@ -56,7 +56,7 @@ namespace SampleWebApp
 
             int[] allOrgIds = cn.Query<int>("SELECT [Id] FROM [dbo].[Organization] [org]").ToArray();
 
-            tdg.GenerateUniqueUpTo<CustomerType>(cn, 25,
+            tdg.GenerateUniqueUpTo<CustomerType>(cn, 50,
                 connection => connection.QuerySingle<int?>("SELECT COUNT(1) FROM [dbo].[CustomerType]") ?? 0,
                 ct =>
                 {
@@ -65,7 +65,7 @@ namespace SampleWebApp
                     ct.CreatedBy = "random";
                 }, (connection, ct) =>
                 {
-                    return connection.Exists("[dbo].[CustomerType] WHERE [Name]=@name", new { name = ct.Name });
+                    return connection.Exists("[dbo].[CustomerType] WHERE [Name]=@name AND [OrganizationID]=@orgId", new { name = ct.Name, orgId = ct.OrganizationId });
                 }, (record) =>
                 {
                     db.Save(record);
@@ -76,7 +76,7 @@ namespace SampleWebApp
             CustomerType[] customerTypes = cn.Query<CustomerType>("SELECT * FROM [dbo].[CustomerType]").ToArray();
             int[] regionIds = cn.Query<int>("SELECT [Id] FROM [dbo].[Region]").ToArray();
 
-            tdg.Generate<Customer>(100, (c) =>
+            tdg.Generate<Customer>(500, (c) =>
             {
                 c.OrganizationId = tdg.Random(customerOrgIds);
                 c.LastName = tdg.Random(Source.LastName);
