@@ -11,11 +11,10 @@ namespace SampleWebApp.Controllers
     public class CustomerController : ControllerBase
     {
         public ActionResult Index(AllCustomers query)
-        {
-            query.OrgId = CurrentUser.CurrentOrgId;
-
+        {            
             FillSelectLists(query);
 
+            // assures current org access only, no matter what OrgId is passed in from address bar
             query.OrgId = CurrentUser.CurrentOrgId;
             var list = query.Execute();
             return View(list);
@@ -26,7 +25,7 @@ namespace SampleWebApp.Controllers
             return new SelectListQuery[]
             {
                 new RegionSelect(),
-                new CustomerTypeSelect()
+                new CustomerTypeSelect() { OrgId = CurrentUser.CurrentOrgId }
             };
         }        
 

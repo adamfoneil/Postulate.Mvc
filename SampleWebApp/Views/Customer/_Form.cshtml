@@ -7,40 +7,41 @@
     @Html.Hidden("Id", Model.Id)
     @Html.ActionNameField()
 
+
     <div>
         <label>
             First Name:
-            @Html.TextBoxFor(model => model.FirstName)
+            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", required = "requred" })
         </label>
     </div>
 
     <div>
         <label>
             Last Name:
-            @Html.TextBoxFor(model => model.LastName)
+            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", required = "requred" })
         </label>
     </div>
 
     <div>
         <label>
             Address:
-            @Html.TextBoxFor(model => model.Address)
+            @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
         </label>
     </div>
 
     <div>
         <label>
             Customer Type:
-            @Html.DropDownList("TypeId", ViewData["CustomerTypeList"] as SelectList, "(select)", new { required = "required" })
+            @Html.DropDownList("TypeId", ViewData["CustomerTypeSelect"] as SelectList, "(select)", new { required = "required", @class = "form-control" })
         </label>
     </div>
 
     <div>
         <label>
             Region:
-            @Html.DropDownList("RegionId", ViewData["RegionList"] as SelectList, "(select)", new { required = "required" })
+            @Html.DropDownList("RegionId", ViewData["RegionSelect"] as SelectList, "(select)", new { required = "required", @class = "form-control" })
         </label>
     </div>
 
-    <input type="submit" value="Save"/>
+    <input type="submit" value="Save" class="btn btn-primary"/>
 }

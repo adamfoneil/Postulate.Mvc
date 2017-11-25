@@ -150,7 +150,8 @@ namespace Postulate.Mvc
 
         private DynamicParameters CombineParameters(IEnumerable<SelectListQuery> queries, object record, PropertyInfo[] props)
         {
-            var paramValues = queries.SelectMany(q => q.GetType().GetProperties()
+            var paramValues = queries
+                .SelectMany(q => q.GetType().GetProperties()
                 .Where(pi => pi.GetValue(q) != null)
                 .Select(pi => new { Name = pi.Name, Value = pi.GetValue(q) })
                 .GroupBy(pi => pi.Name)
@@ -165,7 +166,7 @@ namespace Postulate.Mvc
 
             if (record != null)
             {
-                foreach (var pi in props.Where(pi => IsSimpleType(pi.PropertyType)))
+                foreach (var pi in props.Where(pi => IsSimpleType(pi.PropertyType) && !paramValues.Any(p => p.Name.Equals(pi.Name))))
                 {
                     var value = pi.GetValue(record);
                     if (value != null)
