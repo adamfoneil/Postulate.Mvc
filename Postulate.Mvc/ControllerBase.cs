@@ -25,10 +25,45 @@ namespace Postulate.Mvc
         /// </summary>
         protected virtual IEnumerable<SelectListQuery> SelectListQueries(object record = null) { return null; }
 
+        /// <summary>
+        /// Set this to cause exceptions in the controller to redirect to this view, as well as to cause <see cref="LogException(HandleErrorInfo)"/> to be called
+        /// </summary>
+        protected string ExceptionView { get; set; }
+
+        /// <summary>
+        /// Called when an exception occurs in the controller and <see cref="ExceptionView"/> is set
+        /// </summary>        
+        protected virtual void LogException(HandleErrorInfo errorInfo)
+        {
+            // do nothing by default
+        }
+
         protected override void Initialize(RequestContext requestContext)
         {
             base.Initialize(requestContext);
             _db.UserName = User.Identity.Name;
+        }
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            base.OnException(filterContext);
+
+            if (!string.IsNullOrEmpty(ExceptionView))
+            {
+                filterContext.ExceptionHandled = true;
+                var model = new HandleErrorInfo(
+                    filterContext.Exception,
+                    filterContext.RequestContext.RouteData.Values["controller"].ToString(),
+                    filterContext.RequestContext.RouteData.Values["action"].ToString());
+
+                LogException(model);
+
+                filterContext.Result = new ViewResult()
+                {
+                    ViewName = ExceptionView,
+                    ViewData = new ViewDataDictionary(model)
+                };
+            }
         }
 
         /// <summary>
