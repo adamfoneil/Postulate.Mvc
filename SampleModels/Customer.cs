@@ -31,6 +31,19 @@ namespace Sample.Models
 
         [MaxLength(5)]
         public string ZipCode { get; set; }
+        
+        //test properties added to demo schema merge
+
+        /*
+        [MaxLength(50)]
+        public string Email { get; set; }
+
+        [MaxLength(50)]
+        public string Phone1 { get; set; }
+
+        [MaxLength(50)]
+        public string Phone2 { get; set; }        
+        */
 
         [Postulate.Orm.Attributes.ForeignKey(typeof(CustomerType))]
         public int TypeId { get; set; }
@@ -44,7 +57,6 @@ namespace Sample.Models
         [NotMapped]
         public string RegionName { get; set; }
 
-
         public override bool AllowDelete(IDbConnection connection, SqlDb<int> db, out string message)
         {
             if (db.UserName.Equals("adamosoftware@gmail.com"))
@@ -56,5 +68,16 @@ namespace Sample.Models
             message = null;
             return true;
         }
+
+        /*
+        test after adding Email, Phone1, and Phone2 fields
+
+        public override IEnumerable<string> GetValidationErrors(IDbConnection connection, SaveAction action)
+        {
+            if (string.IsNullOrEmpty(Email) && string.IsNullOrEmpty(Phone1) && string.IsNullOrEmpty(Phone2))
+            {
+                yield return "Email, Phone1, or Phone2 must be provided";
+            }
+        }*/
     }
 }
