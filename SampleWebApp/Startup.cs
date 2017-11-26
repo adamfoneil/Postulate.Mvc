@@ -7,6 +7,7 @@ using Postulate.Orm.Extensions;
 using Postulate.Orm.Merge;
 using Postulate.Orm.SqlServer;
 using Sample.Models;
+using System;
 using System.Data;
 using System.Linq;
 using System.Reflection;
@@ -32,10 +33,15 @@ namespace SampleWebApp
             });
         }
 
-        private static void CreateBaseTables(IDbConnection cn)
+        public static Assembly GetModelAssembly()
         {
             var assemblyName = Assembly.GetExecutingAssembly().GetReferencedAssemblies().Single(a => a.Name.Equals("SampleModels"));
-            var types = Engine<SqlServerSyntax>.GetModelTypes(Assembly.Load(assemblyName));
+            return Assembly.Load(assemblyName);            
+        }
+
+        private static void CreateBaseTables(IDbConnection cn)
+        {
+            var types = Engine<SqlServerSyntax>.GetModelTypes(GetModelAssembly());
             new Engine<SqlServerSyntax>(types).ExecuteAsync(cn).Wait();
         }
 

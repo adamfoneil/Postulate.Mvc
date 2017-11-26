@@ -1,60 +1,62 @@
-﻿using Postulate.Mvc;
+﻿using Microsoft.AspNet.Identity.Owin;
+using Postulate.Mvc;
 using Postulate.Orm.Merge;
 using Postulate.Orm.SqlServer;
 using Sample.Models;
 using System;
-using System.Reflection;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SampleWebApp.Controllers
 {
     [Authorize]
-    public class SchemaController : ControllerBase<DemoDb, int>
+    public class SchemaController : SampleWebApp.ControllerBase
     {
+        private Engine<SqlServerSyntax> _merge = new Engine<SqlServerSyntax>(Startup.GetModelAssembly());        
+
         public ActionResult Index()
         {
             return View();
         }
 
-        public async Task<ActionResult> Merge()
+        private ApplicationUserManager UserManager
+        {
+            get { return HttpContext.GetOwinContext().Get<ApplicationUserManager>(); }
+        }
+
+        public async Task<ActionResult> Preview()
         {
             using (var cn = Db.GetConnection())
             {
                 cn.Open();
-                var engine = new Engine<SqlServerSyntax>(Assembly.GetExecutingAssembly(), new Progress<MergeProgress>(ShowProgress));
-                var actions = await engine.CompareAsync(cn);
-                string script = engine.GetScript(cn, actions).ToString();
+                var actions = await _merge.CompareAsync(cn);
+                var script = _merge.GetScript(cn, actions);
                 return View(script);
             }
         }
 
-        private void ShowProgress(MergeProgress obj)
-        {
-            // not much to do in web app
-        }
-
         [HttpPost]
-        [ActionName("Merge")]
-        public async Task<ActionResult> MergeExecute()
-        {
+        [ActionName("Preview")]
+        public async Task<ActionResult> Execute()
+        {            
             try
             {
                 using (var cn = Db.GetConnection())
                 {
                     cn.Open();
-                    var engine = new Engine<SqlServerSyntax>(Assembly.GetExecutingAssembly(), new Progress<MergeProgress>(ShowProgress));
-                    var actions = await engine.CompareAsync(cn);
-                    await engine.ExecuteAsync(cn, actions);
-                }                
-                
+                    if (!CurrentUser.HasRole(cn, "Admins")) throw new Exception("You must be in Admins role to execute schema merges");
+                    var actions = await _merge.CompareAsync(cn);
+                    await _merge.ExecuteAsync(cn, actions);
+                }
+
                 TempData.Add("success", "Schema merge executed successfully!");
             }
             catch (Exception exc)
             {
                 TempData.Add("error", exc.Message);
             }
-            return RedirectToAction("Merge");
+            return RedirectToAction("Preview");
         }
     }
 }

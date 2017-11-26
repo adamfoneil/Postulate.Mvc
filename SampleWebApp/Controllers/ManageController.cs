@@ -91,7 +91,7 @@ namespace SampleWebApp.Controllers
         public ActionResult UserProfile()
         {
             _db.UserName = User.Identity.Name;
-            var profile = _db.FindUserProfile<UserProfile>() ?? new UserProfile() { UserName = _db.UserName };
+            var profile = _db.FindUserProfile<UserProfile>() ?? new UserProfile() { UserName = _db.UserName };                        
 
             ViewBag.OrgSelect = new OrgSelect().Execute(profile?.CurrentOrgId);
 

@@ -1,4 +1,4 @@
-﻿@model string
+﻿@model System.Text.StringBuilder
 
 @{
     ViewBag.Title = "Schema Merge";
@@ -9,14 +9,14 @@
 <p class="text-danger">@TempData["error"]</p>
 <p class="success">@TempData["success"]</p>
 
-@if (string.IsNullOrEmpty(Model))
+@if (Model == null)
 {
     <p>There are no pending changes to apply.</p>
     return;
 }
 
 <pre>
-    @Model
+@Model.ToString()
 </pre>
 
 @using (Html.BeginForm())
