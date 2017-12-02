@@ -19,7 +19,7 @@ namespace Postulate.Mvc
         private SqlDb<TKey> _db = new TDb();
 
         protected SqlDb<TKey> Db { get { return _db; } }
-
+        
         /// <summary>
         /// SelectListQueries to execute when FillSelectLists is called
         /// </summary>
@@ -78,7 +78,7 @@ namespace Postulate.Mvc
             }
             catch (Exception exc)
             {
-                CaptureErrorMessage(exc);
+                CaptureErrorMessage(exc, record);
                 return false;
             }
         }
@@ -95,7 +95,7 @@ namespace Postulate.Mvc
             }
             catch (Exception exc)
             {
-                CaptureErrorMessage(exc);
+                CaptureErrorMessage(exc, record);
                 return false;
             }
         }
@@ -105,21 +105,28 @@ namespace Postulate.Mvc
         /// </summary>
         protected bool DeleteRecord<TRecord>(TKey id) where TRecord : Record<TKey>, new()
         {
-            try
+            using (var cn = Db.GetConnection())
             {
-                Db.DeleteOne<TRecord>(id);
-                return true;
-            }
-            catch (Exception exc)
-            {
-                CaptureErrorMessage(exc);
-                return false;
+                cn.Open();
+                try
+                {
+                    Db.DeleteOne<TRecord>(cn, id);
+                    return true;
+                }
+                catch (Exception exc)
+                {
+                    TRecord errorRecord = Db.Find<TRecord>(cn, id);
+                    CaptureErrorMessage(exc, errorRecord);
+                    return false;
+                }
             }
         }
 
-        private void CaptureErrorMessage(Exception exc)
+        private void CaptureErrorMessage<TRecord>(Exception exc, TRecord record) where TRecord : Record<TKey>
         {
-            TempData.RemoveAndAdd("error", exc.Message);
+            string message = record.GetErrorMessage(Db, exc.Message);
+
+            TempData.RemoveAndAdd("error", message);
 
             SaveException se = exc as SaveException;
             if (se != null)

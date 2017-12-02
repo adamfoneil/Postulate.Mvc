@@ -1,4 +1,4 @@
-﻿using Postulate.Orm.Abstract;
+﻿using Postulate.Orm;
 using Sample.Models;
 
 namespace SampleWebApp.Queries
