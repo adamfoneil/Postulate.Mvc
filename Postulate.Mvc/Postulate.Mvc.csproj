@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\UserData.cs" />
+    <Compile Include="Attributes\SuccessMessage.cs" />
     <Compile Include="ControllerBase.cs" />
     <Compile Include="Extensions\DynamicExtensions.cs" />
     <Compile Include="Extensions\IPrincipalExtensions.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Helpers\Enclosable.cs" />
     <Compile Include="Helpers\EnumDropDownList.cs" />
     <Compile Include="Helpers\GridEditor.cs" />
+    <Compile Include="Helpers\SaveMessage.cs" />
     <Compile Include="Helpers\YesNoDropdown.cs" />
     <Compile Include="SelectListQuery.cs" />
     <Compile Include="ProfileControllerBase.cs" />
