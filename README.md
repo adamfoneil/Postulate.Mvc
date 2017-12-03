@@ -25,7 +25,7 @@ Next, you should install one or the other of these: **Postulate.Orm.MySql** or *
 
 - [GridEditor](https://github.com/adamosoftware/Postulate.Mvc/blob/master/Postulate.Mvc/Helpers/GridEditor.cs) offers inline editing of tables. Demo video coming soon!
 
-- [HtmlHelpers](/Postulate.Mvc/Extensions/HtmlHelpers.cs) provides some miscellaneous helpers. One in particular [ActionNameField](/Postulate.Mvc/Extensions/Helpers.cs#12) passes the current action name to a controller for easy redirect back to a failing page in case of an error.
+- [HtmlHelpers](/Postulate.Mvc/Extensions/HtmlHelpers.cs) provides some miscellaneous helpers. One in particular [ActionNameField](/Postulate.Mvc/Helpers/NavFields.cs#L18) passes the current action name to a controller for easy redirect back to a failing page in case of an error.
 
 - [SelectListQuery](/Postulate.Mvc/SelectListQuery.cs) describes a query used to fill a drop down list, and is used by BaseController.FillSelectLists.
 
