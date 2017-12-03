@@ -23,7 +23,7 @@ Next, you should install one or the other of these: **Postulate.Orm.MySql** or *
     - profile validation with [ProfileRule](/Postulate.Mvc/ProfileControllerBase.cs#L27) property. Specify a rule that describes a well-formed user profile. For example, in a multi-tenant system, you might need to ensure that all users have a tenant selected. By setting the ProfileRule for the controller, users are automatically redirected to the profile page of your choice (set by the [ProfileUpdateUrl](/Postulate.Mvc/ProfileControllerBase.cs#L32) property) to complete their setup if necessary.
     - access to user profile data through the [CurrentUser](/Postulate.Mvc/ProfileControllerBase.cs#L22) property.
 
-- [GridEditor](https://github.com/adamosoftware/Postulate.Mvc/blob/master/Postulate.Mvc/Helpers/GridEditor.cs) offers inline editing of tables.
+- [GridEditor](https://github.com/adamosoftware/Postulate.Mvc/blob/master/Postulate.Mvc/Helpers/GridEditor.cs) offers inline editing of tables. Demo video coming soon!
 
 - [HtmlHelpers](/Postulate.Mvc/Extensions/HtmlHelpers.cs) provides some miscellaneous helpers. One in particular [ActionNameField](/Postulate.Mvc/Extensions/Helpers.cs#12) passes the current action name to a controller for easy redirect back to a failing page in case of an error.
 
