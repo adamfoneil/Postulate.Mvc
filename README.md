@@ -15,13 +15,13 @@ Next, you should install one or the other of these: **Postulate.Orm.MySql** or *
 ## Highlights
 
 - [ControllerBase](/Postulate.Mvc/ControllerBase.cs) enhances your controllers by offering
-    - data access through the [Db](/Postulate.Mvc/ControllerBase.cs#L22) property as well as [SaveRecord](/Postulate.Mvc/ControllerBase.cs#L55), [DeleteRecord](/Postulate.Mvc/ControllerBase.cs#L72), and [UpdateRecord](/Postulate.Mvc/ControllerBase.cs#L38) methods. These can greatly simplify typical Controller CRUD actions if you're using Postulate.Orm.
-    - convenient and efficient drop down list filling with the [FillSelectLists](/Postulate.Mvc/ControllerBase.cs#L128) method and its several overloads. FillSelectLists executes multiple list-filling queries in one round trip using Dapper's QueryMultiple method.
-    - access to Json-based user profile data with the [LoadUserData](/Postulate.Mvc/ControllerBase.cs#L221) method.
+    - data access through the [Db](/Postulate.Mvc/ControllerBase.cs#L21) property as well as [SaveRecord](/Postulate.Mvc/ControllerBase.cs#L89), [DeleteRecord](/Postulate.Mvc/ControllerBase.cs#L106), and [UpdateRecord](/Postulate.Mvc/ControllerBase.cs#L72) methods. These can greatly simplify typical Controller CRUD actions if you're using Postulate.Orm.
+    - convenient and efficient drop down list filling with the [FillSelectLists](/Postulate.Mvc/ControllerBase.cs#L142) method and its several overloads. FillSelectLists executes multiple list-filling queries in one round trip using Dapper's QueryMultiple method.
+    - access to Json-based user profile data with the [LoadUserData](/Postulate.Mvc/ControllerBase.cs#L254) method.
     
 - [ProfileControllerBase](/Postulate.Mvc/ProfileControllerBase.cs) builds on BaseController by integrating strong-typed access to your user profile class within your controller. Just about any web app requires user profile data at the controller level. Inherit from this class to incorporate user profile data directly into your controllers. Your user profile model class must implement [IUserProfile](https://github.com/adamosoftware/Postulate.Orm/blob/master/PostulateV1/Interfaces/IUserProfile.cs). In addition, this class offers
-    - profile validation with [ProfileRule](/Postulate.Mvc/ProfileControllerBase.cs#L27) property. Specify a rule that describes a well-formed user profile. For example, in a multi-tenant system, you might need to ensure that all users have a tenant selected. By setting the ProfileRule for the controller, users are automatically redirected to the profile page of your choice (set by the [ProfileUpdateUrl](/Postulate.Mvc/ProfileControllerBase.cs#L32) property) to complete their setup if necessary.
-    - access to user profile data through the [CurrentUser](/Postulate.Mvc/ProfileControllerBase.cs#L22) property.
+    - profile validation with [ProfileRule](/Postulate.Mvc/ProfileControllerBase.cs#L20) property. Specify a rule that describes a well-formed user profile. For example, in a multi-tenant system, you might need to ensure that all users have a tenant selected. By setting the ProfileRule for the controller, users are automatically redirected to the profile page of your choice (set by the [ProfileUpdateRedirect](/Postulate.Mvc/ProfileControllerBase.cs#L25) property) to complete their setup if necessary.
+    - access to user profile data through the [CurrentUser](/Postulate.Mvc/ProfileControllerBase.cs#L15) property.
 
 - [GridEditor](https://github.com/adamosoftware/Postulate.Mvc/blob/master/Postulate.Mvc/Helpers/GridEditor.cs) offers inline editing of tables. Demo video coming soon!
 
