@@ -55,6 +55,7 @@
     <Compile Include="Helpers\Enclosable.cs" />
     <Compile Include="Helpers\EnumDropDownList.cs" />
     <Compile Include="Helpers\GridEditor.cs" />
+    <Compile Include="Helpers\Paging.cs" />
     <Compile Include="Helpers\SaveMessage.cs" />
     <Compile Include="Helpers\YesNoDropdown.cs" />
     <Compile Include="SelectListQuery.cs" />
