@@ -10,7 +10,7 @@ namespace SampleWebApp
     {
         public ControllerBase()
         {
-            ExceptionView = "~/Views/Shared/Error.chstml";
+            ExceptionView = "/Views/Shared/Error.chstml";
         }
 
         protected override ActionResult ProfileUpdateRedirect => RedirectToAction("Index", "Manage", new { message = ManageMessageId.ProfileMissing });
