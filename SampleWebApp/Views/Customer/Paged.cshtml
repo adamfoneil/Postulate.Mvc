@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Customer>
+
+@{
+    ViewBag.Title = "Paged Customer List";
+}
+
+<h2>Paged Customer List</h2>
+
+@Html.Partial("~/Views/Shared/_Paging.cshtml", Html.CurrentPage())
+
+@Html.Partial("_List", Model)
+

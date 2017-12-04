@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Customer>
+
+<table class="table" style="margin-top:30px">
+    <tr>
+        <th>Last Name</th>
+        <th>First Name</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Region</th>
+        <th>Type</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.LastName</td>
+            <td>@item.FirstName</td>
+            <td>@item.Address</td>
+            <td>@item.City</td>
+            <td>@item.State</td>
+            <td>@item.RegionName</td>
+            <td>@item.CustomerTypeName</td>
+            <td>
+                <a href="@Url.Action("Edit", new { id = item.Id })">edit</a> |
+                <a href="@Url.Action("Delete", new { id = item.Id })">delete</a>
+            </td>
+        </tr>
+    }
+</table>
+
+

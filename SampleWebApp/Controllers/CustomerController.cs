@@ -10,14 +10,23 @@ namespace SampleWebApp.Controllers
     [Authorize]
     public class CustomerController : ControllerBase
     {
-        public ActionResult Index(AllCustomers query)
+        public ActionResult Index(AllCustomers query, int page = 1)
         {            
             FillSelectLists(query);
 
             // assures current org access only, no matter what OrgId is passed in from address bar
             query.OrgId = CurrentUser.CurrentOrgId;
-            var list = query.Execute();
+
+            query.RowsPerPage = 10;
+
+            var list = query.Execute(page);
             return View(list);
+        }
+
+        public ActionResult Paged(int page = 1)
+        {
+            var results = new AllCustomers() { OrgId = CurrentUser.CurrentOrgId, RowsPerPage = 10 }.Execute(page);
+            return View(results);
         }
 
         protected override IEnumerable<SelectListQuery> SelectListQueries(object record = null)
