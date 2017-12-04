@@ -305,6 +305,9 @@
     <Content Include="Views\Schema\Preview.cshtml" />
     <Content Include="Views\Schema\Index.cshtml" />
     <Content Include="Views\Manage\UserProfile.cshtml" />
+    <Content Include="Views\Customer\Paged.cshtml" />
+    <Content Include="Views\Customer\_List.cshtml" />
+    <Content Include="Views\Shared\_Paging.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
