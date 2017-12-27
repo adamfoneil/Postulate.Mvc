@@ -419,6 +419,7 @@ namespace Postulate.Mvc.Helpers
                 if (allowEdit)
                 {
                     TagBuilder aEdit = new TagBuilder("a");
+                    aEdit.MergeAttribute("id", $"aGridEditorEdit{_namePrefix}_{_rowId}");
                     aEdit.MergeAttribute("href", "javascript:DataGridEditRow(" + jsArgsEdit + ")");
                     aEdit.SetInnerText("edit");
                     spanClean.InnerHtml = aEdit.ToString(TagRenderMode.Normal);
@@ -429,6 +430,7 @@ namespace Postulate.Mvc.Helpers
                     if (allowEdit) spanClean.InnerHtml += "&nbsp;|&nbsp;";
 
                     TagBuilder aDelete = new TagBuilder("a");
+                    aDelete.MergeAttribute("id", $"aGridEditorDelete{_namePrefix}-{_rowId}");
                     aDelete.SetInnerText("delete");
                     if (!UseAjax)
                     {
@@ -447,6 +449,7 @@ namespace Postulate.Mvc.Helpers
                 spanDirty.MergeAttribute("style", "display:none");
 
                 TagBuilder aSave = new TagBuilder("a");
+                aSave.MergeAttribute("id", $"aGridEditorSave{_namePrefix}_{_rowId}");
                 if (!UseAjax)
                 {
                     aSave.MergeAttribute("href", "javascript:" + UpdateFunction + "(" + jsArgsSave + ")");
@@ -469,6 +472,7 @@ namespace Postulate.Mvc.Helpers
             else
             {
                 TagBuilder aInsert = new TagBuilder("a");
+                aInsert.MergeAttribute("id", $"aGridEditorInsert{_namePrefix}");
                 if (!UseAjax)
                 {
                     aInsert.MergeAttribute("href", "javascript:" + InsertFunction + "('" + SaveFormID() + "', " + jsArgsSave + ")");
