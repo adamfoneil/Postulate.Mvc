@@ -66,63 +66,92 @@ namespace Postulate.Mvc
             }
         }
 
-        /// <summary>
-        /// Updates a record and returns true if successful. Otherwise, the error message is set in TempData
-        /// </summary>
-        protected bool UpdateRecord<TRecord>(TRecord record, params Expression<Func<TRecord, object>>[] setColumns) where TRecord : Record<TKey>, new()
-        {
-            try
-            {
-                Db.Update(record, setColumns);
-                return true;
-            }
-            catch (Exception exc)
-            {
-                CaptureErrorMessage(exc, record);
-                return false;
-            }
-        }
+		/// <summary>
+		/// Updates a record and returns true if successful. Otherwise, the error message is set in TempData
+		/// </summary>
+		protected bool UpdateRecord<TRecord>(IDbConnection connection, TRecord record, params Expression<Func<TRecord, object>>[] setColumns) where TRecord : Record<TKey>, new()
+		{
+			try
+			{
+				Db.Update(connection, record, setColumns);
+				return true;
+			}
+			catch (Exception exc)
+			{
+				CaptureErrorMessage(exc, record);
+				return false;
+			}
+		}
 
-        /// <summary>
-        /// Saves a record and returns true if successful. Otherwise, the error message is set in TempData
-        /// </summary>
-        protected bool SaveRecord<TRecord>(TRecord record) where TRecord : Record<TKey>, new()
-        {
-            try
-            {
-                Db.Save(record);
-                return true;
-            }
-            catch (Exception exc)
-            {
-                CaptureErrorMessage(exc, record);
-                return false;
-            }
-        }
+		/// <summary>
+		/// Updates a record and returns true if successful. Otherwise, the error message is set in TempData
+		/// </summary>
+		protected bool UpdateRecord<TRecord>(TRecord record, params Expression<Func<TRecord, object>>[] setColumns) where TRecord : Record<TKey>, new()
+		{
+			using (var cn = Db.GetConnection())
+			{
+				return UpdateRecord(cn, record, setColumns);
+			}
+		}
 
-        /// <summary>
-        /// Deletes a record and returns true if successful. Otherwise, the error message is set in TempData
-        /// </summary>
-        protected bool DeleteRecord<TRecord>(TKey id) where TRecord : Record<TKey>, new()
-        {
-            using (var cn = Db.GetConnection())
-            {
-                cn.Open();
-                try
-                {
-                    Db.DeleteOne<TRecord>(cn, id);
-                    return true;
-                }
-                catch (Exception exc)
-                {
-                    TRecord errorRecord = Db.Find<TRecord>(cn, id);
-                    CaptureErrorMessage(exc, errorRecord);
-                    return false;
-                }
-            }
-        }
+		/// <summary>
+		/// Saves a record and returns true if successful. Otherwise, the error message is set in TempData
+		/// </summary>
+		protected bool SaveRecord<TRecord>(IDbConnection connection, TRecord record) where TRecord : Record<TKey>, new()
+		{
+			try
+			{
+				Db.Save(connection, record);
+				return true;
+			}
+			catch (Exception exc)
+			{
+				CaptureErrorMessage(exc, record);
+				return false;
+			}
+		}
 
-        private void CaptureErrorMessage<TRecord>(Exception exc, TRecord record) where TRecord : Record<TKey>
+		/// <summary>
+		/// Saves a record and returns true if successful. Otherwise, the error message is set in TempData
+		/// </summary>
+		protected bool SaveRecord<TRecord>(TRecord record) where TRecord : Record<TKey>, new()
+		{
+			using (var cn = Db.GetConnection())
+			{
+				return SaveRecord(cn, record);
+			}
+		}
+
+		/// <summary>
+		/// Deletes a record and returns true if successful. Otherwise, the error message is set in TempData
+		/// </summary>
+		protected bool DeleteRecord<TRecord>(IDbConnection connection, TKey id) where TRecord : Record<TKey>, new()
+		{
+			try
+			{
+				Db.DeleteOne<TRecord>(connection, id);
+				return true;
+			}
+			catch (Exception exc)
+			{
+				TRecord errorRecord = Db.Find<TRecord>(connection, id);
+				CaptureErrorMessage(exc, errorRecord);
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// Deletes a record and returns true if successful. Otherwise, the error message is set in TempData
+		/// </summary>
+		protected bool DeleteRecord<TRecord>(TKey id) where TRecord : Record<TKey>, new()
+		{
+			using (var cn = Db.GetConnection())
+			{
+				return DeleteRecord<TRecord>(cn, id);
+			}
+		}
+
+		private void CaptureErrorMessage<TRecord>(Exception exc, TRecord record) where TRecord : Record<TKey>
         {
             string message = record.GetErrorMessage(Db, exc.Message);
 
