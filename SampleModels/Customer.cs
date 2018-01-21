@@ -51,6 +51,9 @@ namespace Sample.Models
         [Postulate.Orm.Attributes.ForeignKey(typeof(Region))]
         public int RegionId { get; set; }
 
+		[Postulate.Orm.Attributes.ForeignKey(typeof(Region))]
+		public int? OtherRegionId { get; set; }
+
         [NotMapped]
         public string CustomerTypeName { get; set; }
 

@@ -39,7 +39,14 @@
     <div>
         <label>
             Region:
-            @Html.DropDownList("RegionId", ViewData["RegionSelect"] as SelectList, "(select)", new { required = "required", @class = "form-control" })
+            @Html.DropDownList("RegionId", ViewData["RegionSelect.RegionId"] as SelectList, "(select)", new { required = "required", @class = "form-control" })
+        </label>
+    </div>
+
+    <div>
+        <label>
+            Other Region:
+            @Html.DropDownList("OtherRegionId", ViewData["RegionSelect.OtherRegionId"] as SelectList, "(select)", new { required = "required", @class = "form-control" })
         </label>
     </div>
 

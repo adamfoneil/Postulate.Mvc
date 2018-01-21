@@ -16,7 +16,7 @@
 
         <div class="col-sm-6">
             <label class="control-label">Region:</label>
-            @Html.DropDownList("RegionId", ViewData["RegionSelect"] as SelectList, "(all)", new { onchange = "this.form.submit();", @class = "form-control" })
+            @Html.DropDownList("RegionId", ViewData["RegionSelect.RegionId"] as SelectList, "(all)", new { onchange = "this.form.submit();", @class = "form-control" })
         </div>
     </div>
 }

@@ -203,6 +203,9 @@ namespace Postulate.Mvc
 
             var gridReader = connection.QueryMultiple(string.Join("\r\n", queries.Select(q => $"{q.Sql};")), CombineParameters(queries, record, props));
 
+			// need to know if we're using the same query more than once -- those are cases where we have the same dropdown with different selected values
+			var dupTypes = queries.GroupBy(q => q.GetType().Name).Where(grp => grp.Count() > 1).Select(grp => grp.Key);
+
             foreach (var q in queries)
             {
                 bool isDefaultValue;
@@ -215,7 +218,12 @@ namespace Postulate.Mvc
                     if (missingItem != null) listItems.Insert(0, missingItem);
                 }
 
-                ViewData.Add(q.GetType().Name, new SelectList(listItems, "Value", "Text", selectedValue));
+				string viewDataKey = q.GetType().Name;
+
+				// if we're using the same dropdown more than once with different selected value, then the view data key must include the specific value property
+				if (dupTypes.Contains(viewDataKey)) viewDataKey = $"{viewDataKey}.{q.ValueProperty}";
+
+                ViewData.Add(viewDataKey, new SelectList(listItems, "Value", "Text", selectedValue));
             }
         }
 

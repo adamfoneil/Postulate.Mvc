@@ -15,7 +15,7 @@ namespace SampleWebApp.Controllers
             FillSelectLists(query);
 
             // assures current org access only, no matter what OrgId is passed in from address bar
-            query.OrgId = CurrentUser.CurrentOrgId;
+            query.OrgId = CurrentUser.OrganizationId;
 
             query.RowsPerPage = 10;
 
@@ -25,7 +25,7 @@ namespace SampleWebApp.Controllers
 
         public ActionResult Paged(int page = 1)
         {
-            var results = new AllCustomers() { OrgId = CurrentUser.CurrentOrgId, RowsPerPage = 10 }.Execute(page);
+            var results = new AllCustomers() { OrgId = CurrentUser.OrganizationId, RowsPerPage = 10 }.Execute(page);
             return View(results);
         }
 
@@ -33,8 +33,9 @@ namespace SampleWebApp.Controllers
         {
             return new SelectListQuery[]
             {
-                new RegionSelect(),
-                new CustomerTypeSelect() { OrgId = CurrentUser.CurrentOrgId }
+                new RegionSelect("RegionId"),
+				new RegionSelect("OtherRegionId"),
+				new CustomerTypeSelect() { OrgId = CurrentUser.OrganizationId }
             };
         }        
 
@@ -56,7 +57,7 @@ namespace SampleWebApp.Controllers
 
         public ActionResult Save(Customer record, string actionName)
         {
-            record.OrganizationId = CurrentUser.CurrentOrgId;
+            record.OrganizationId = CurrentUser.OrganizationId;
 
             if (SaveRecord(record)) return RedirectToAction("Edit", new { id = record.Id });
 

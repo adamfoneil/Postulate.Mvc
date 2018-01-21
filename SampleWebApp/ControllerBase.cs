@@ -15,6 +15,6 @@ namespace SampleWebApp
 
         protected override ActionResult ProfileUpdateRedirect => RedirectToAction("Index", "Manage", new { message = ManageMessageId.ProfileMissing });
 
-        protected override Func<UserProfile, bool> ProfileRule => (record) => record.CurrentOrgId != 0;        
+        protected override Func<UserProfile, bool> ProfileRule => (record) => record.OrganizationId != 0;        
     }
 }

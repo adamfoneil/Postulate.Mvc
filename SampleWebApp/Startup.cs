@@ -24,14 +24,11 @@ namespace SampleWebApp
             var db = new DemoDb() { UserName = "startup" };
             db.CreateIfNotExists((cn, created) =>
             {
-                if (created)
-                {
-                    CreateBaseTables(cn);
-                    new RegionSeedData().Generate(cn, db);
-                    CreateRandomData(cn, db);
-                }
-            });
-        }
+                if (created) CreateBaseTables(cn);				                    
+				new RegionSeedData().Generate(cn, db);                                    
+				CreateRandomData(cn, db);
+			});			
+		}
 
         public static Assembly GetModelAssembly()
         {

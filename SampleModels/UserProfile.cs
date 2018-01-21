@@ -19,7 +19,7 @@ namespace Sample.Models
         public string UserName { get; set; }
 
         [Postulate.Orm.Attributes.ForeignKey(typeof(Organization))]
-        public int CurrentOrgId { get; set; }
+        public int OrganizationId { get; set; }
 
         [DefaultExpression("0")]
         public bool TrackNavigation { get; set; }

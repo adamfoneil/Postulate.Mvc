@@ -93,7 +93,7 @@ namespace SampleWebApp.Controllers
             _db.UserName = User.Identity.Name;
             var profile = _db.FindUserProfile<UserProfile>() ?? new UserProfile() { UserName = _db.UserName };                        
 
-            ViewBag.OrgSelect = new OrgSelect().Execute(profile?.CurrentOrgId);
+            ViewBag.OrgSelect = new OrgSelect().Execute(profile?.OrganizationId);
 
             return PartialView(profile);
         }
