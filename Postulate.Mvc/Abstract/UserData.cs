@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Web;
 
@@ -19,19 +20,20 @@ namespace Postulate.Mvc.Abstract
         [JsonIgnore]
         public abstract string Filename { get; }
 
-        public static T Load<T>(HttpServerUtilityBase server, string userName) where T : UserData, new()
+        public static T Load<T>(HttpServerUtilityBase server, string userName, T defaultInstance = null) where T : UserData, new()
         {
-            var userData = new T();
+			var userData = defaultInstance ?? new T();
 
-            string saveFile = SaveFilename(server, userName, userData.Filename);
+			string saveFile = SaveFilename(server, userName, userData.Filename);
+
             if (File.Exists(saveFile))
-            {
-                using (StreamReader reader = File.OpenText(saveFile))
+            {				
+				using (StreamReader reader = File.OpenText(saveFile))
                 {
                     string json = reader.ReadToEnd();
                     userData = JsonConvert.DeserializeObject<T>(json);
                 }
-            }
+            }			
 
             userData.Server = server;
             userData.UserName = userName;

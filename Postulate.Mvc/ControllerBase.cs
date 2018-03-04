@@ -288,9 +288,9 @@ namespace Postulate.Mvc
             return result;
         }
 
-        protected T LoadUserData<T>() where T : UserData, new()
+        protected T LoadUserData<T>(T defaultInstance = null) where T : UserData, new()
         {
-            return UserData.Load<T>(Server, User.Identity.Name);
+            return UserData.Load(Server, User.Identity.Name, defaultInstance);
         }
     }
 }
