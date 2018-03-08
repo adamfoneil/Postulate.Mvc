@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\UserData.cs" />
+    <Compile Include="ApiResult.cs" />
     <Compile Include="Attributes\SuccessMessage.cs" />
     <Compile Include="ControllerBase.cs" />
     <Compile Include="Extensions\DynamicExtensions.cs" />
@@ -76,7 +77,7 @@
       <Version>10.0.3</Version>
     </PackageReference>
     <PackageReference Include="Postulate.Orm.Core">
-      <Version>1.0.20</Version>
+      <Version>1.0.48</Version>
     </PackageReference>
     <PackageReference Include="Postulate.Orm.SqlServer">
       <Version>1.0.18-beta</Version>
