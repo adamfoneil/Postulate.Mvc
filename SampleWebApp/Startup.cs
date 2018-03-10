@@ -4,7 +4,7 @@ using Microsoft.Owin;
 using Owin;
 using Postulate.Orm.Abstract;
 using Postulate.Orm.Extensions;
-using Postulate.Orm.Merge;
+using Postulate.Orm.ModelMerge;
 using Postulate.Orm.SqlServer;
 using Sample.Models;
 using System;

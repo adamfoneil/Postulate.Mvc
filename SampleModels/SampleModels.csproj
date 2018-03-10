@@ -31,11 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
+    <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="Postulate.Orm.Core, Version=1.0.20.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Postulate.Orm.Core.1.0.20\lib\net461\Postulate.Orm.Core.dll</HintPath>
+    <Reference Include="Postulate.Orm.Core, Version=1.0.48.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Postulate.Orm.Core.1.0.48\lib\net461\Postulate.Orm.Core.dll</HintPath>
     </Reference>
     <Reference Include="Postulate.Orm.SqlServer, Version=1.0.18.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Postulate.Orm.SqlServer.1.0.18-beta\lib\net461\Postulate.Orm.SqlServer.dll</HintPath>

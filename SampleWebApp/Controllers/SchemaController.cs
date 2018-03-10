@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.Owin;
 using Postulate.Mvc;
-using Postulate.Orm.Merge;
+using Postulate.Orm.ModelMerge;
 using Postulate.Orm.SqlServer;
 using Sample.Models;
 using System;

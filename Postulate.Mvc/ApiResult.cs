@@ -1,6 +1,12 @@
 ﻿namespace Postulate.Mvc
 {
-	public class ApiResult<T>
+	public class ApiResult
+	{
+		public bool IsSuccessful { get; set; }
+		public string Message { get; set; }
+	}
+
+	public class ApiResult<T> : ApiResult
 	{
 		private readonly T _data;
 
@@ -9,8 +15,6 @@
 			_data = data;
 		}
 
-		public bool IsSuccessful { get; set; }
-		public string Message { get; set; }
 		public T Data { get { return _data; } }
 	}
 }

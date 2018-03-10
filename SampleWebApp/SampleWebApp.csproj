@@ -50,8 +50,8 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
+    <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.7\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
@@ -108,8 +108,8 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Postulate.Orm.Core, Version=1.0.20.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Postulate.Orm.Core.1.0.20\lib\net461\Postulate.Orm.Core.dll</HintPath>
+    <Reference Include="Postulate.Orm.Core, Version=1.0.48.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Postulate.Orm.Core.1.0.48\lib\net461\Postulate.Orm.Core.dll</HintPath>
     </Reference>
     <Reference Include="Postulate.Orm.SqlServer, Version=1.0.18.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Postulate.Orm.SqlServer.1.0.18-beta\lib\net461\Postulate.Orm.SqlServer.dll</HintPath>
