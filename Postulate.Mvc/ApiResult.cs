@@ -8,13 +8,17 @@
 
 	public class ApiResult<T> : ApiResult
 	{
-		private readonly T _data;
+		private T _data;
+
+		public ApiResult()
+		{
+		}
 
 		public ApiResult(T data)
 		{
 			_data = data;
 		}
 
-		public T Data { get { return _data; } }
+		public T Data { get { return _data; } set { _data = value; } }
 	}
 }
