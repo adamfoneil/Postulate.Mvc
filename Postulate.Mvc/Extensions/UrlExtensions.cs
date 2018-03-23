@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace Postulate.Mvc.Extensions
 {
-    public static class UrlExtensions
+	public static class UrlExtensions
 	{
 		public static string Base(this UrlHelper url, string append = null)
 		{
