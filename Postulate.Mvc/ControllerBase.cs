@@ -3,6 +3,7 @@ using Postulate.Mvc.Abstract;
 using Postulate.Mvc.Extensions;
 using Postulate.Orm.Abstract;
 using Postulate.Orm.Exceptions;
+using Postulate.Orm.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -281,9 +282,16 @@ namespace Postulate.Mvc
 			var property = props.SingleOrDefault(pi => pi.Name.Equals(valueProperty));
 			var result = property?.GetValue(record);
 
-			// thanks to https://stackoverflow.com/questions/325426/programmatic-equivalent-of-defaulttype
-			var defaultValue = (property?.PropertyType.IsValueType ?? false) ? Activator.CreateInstance(property.PropertyType) : null;
-			isDefaultValue = (defaultValue?.Equals(result) ?? true);
+			if (property?.PropertyType.IsNullable() ?? false)
+			{
+				isDefaultValue = (result == null);
+			}
+			else
+			{
+				// thanks to https://stackoverflow.com/questions/325426/programmatic-equivalent-of-defaulttype
+				var defaultValue = (property?.PropertyType.IsValueType ?? false) ? Activator.CreateInstance(property.PropertyType) : null;
+				isDefaultValue = (defaultValue?.Equals(result) ?? true);
+			}
 
 			return result;
 		}
