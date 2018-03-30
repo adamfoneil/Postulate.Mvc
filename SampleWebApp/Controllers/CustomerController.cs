@@ -2,6 +2,7 @@
 using Sample.Models;
 using SampleWebApp.Queries;
 using SampleWebApp.SelectListQueries;
+using SampleWebApp.ViewModels;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
@@ -11,19 +12,21 @@ namespace SampleWebApp.Controllers
     public class CustomerController : ControllerBase
     {
         public ActionResult Index(AllCustomers query, int page = 1)
-        {            
-            FillSelectLists(query);
+        {
+			FillSelectLists(query);
 
-            // assures current org access only, no matter what OrgId is passed in from address bar
-            query.OrgId = CurrentUser.OrganizationId;
+			// assures current org access only, no matter what OrgId is passed in from address bar
+			query.OrgId = CurrentUser.OrganizationId;
+			query.RowsPerPage = 10;			
 
-            query.RowsPerPage = 10;
+			var vm = new CustomersView();
+			vm.Query = query;
+			vm.Customers = query.Execute(Db, page);
+			return View(vm);
 
-            var list = query.Execute(page);
-            return View(list);
-        }
+		}
 
-        public ActionResult Paged(int page = 1)
+		public ActionResult Paged(int page = 1)
         {
             var results = new AllCustomers() { OrgId = CurrentUser.OrganizationId, RowsPerPage = 10 }.Execute(page);
             return View(results);

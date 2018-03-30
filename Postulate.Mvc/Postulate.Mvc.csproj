@@ -59,6 +59,7 @@
     <Compile Include="Helpers\Paging.cs" />
     <Compile Include="Helpers\SaveMessage.cs" />
     <Compile Include="Helpers\YesNoDropdown.cs" />
+    <Compile Include="Interfaces\IQueryTrace.cs" />
     <Compile Include="SelectListQuery.cs" />
     <Compile Include="ProfileControllerBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,10 +78,10 @@
       <Version>10.0.3</Version>
     </PackageReference>
     <PackageReference Include="Postulate.Orm.Core">
-      <Version>1.0.48</Version>
+      <Version>1.1.4</Version>
     </PackageReference>
     <PackageReference Include="Postulate.Orm.SqlServer">
-      <Version>1.0.18-beta</Version>
+      <Version>1.0.28</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

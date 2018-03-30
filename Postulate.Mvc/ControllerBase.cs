@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using Postulate.Mvc.Abstract;
 using Postulate.Mvc.Extensions;
+using Postulate.Mvc.Interfaces;
+using Postulate.Orm;
 using Postulate.Orm.Abstract;
 using Postulate.Orm.Exceptions;
 using Postulate.Orm.Extensions;
@@ -18,6 +20,7 @@ namespace Postulate.Mvc
 	public abstract class ControllerBase<TDb, TKey> : Controller where TDb : SqlDb<TKey>, new()
 	{
 		private SqlDb<TKey> _db = new TDb();
+		private bool _traceQueries = false;
 
 		protected SqlDb<TKey> Db { get { return _db; } }
 
@@ -43,6 +46,20 @@ namespace Postulate.Mvc
 		{
 			base.Initialize(requestContext);
 			_db.UserName = User.Identity.Name;
+			Db.DebugQueries = TraceQueries(requestContext);
+		}
+
+		private bool TraceQueries(RequestContext requestContext)
+		{
+			try
+			{
+				return (requestContext.HttpContext.Request.QueryString["tracequeries"].Equals("1"));
+			}
+			catch
+			{
+				// do nothing
+			}
+			return false;
 		}
 
 		protected override void OnException(ExceptionContext filterContext)
@@ -232,7 +249,7 @@ namespace Postulate.Mvc
 		{
 			var paramValues = queries
 				.SelectMany(q => q.GetType().GetProperties()
-				.Where(pi => pi.GetValue(q) != null)
+				.Where(pi => pi.PropertyType.IsSimpleType() && pi.GetValue(q) != null)
 				.Select(pi => new { Name = pi.Name, Value = pi.GetValue(q) })
 				.GroupBy(pi => pi.Name)
 				.Select(grp => new
@@ -246,7 +263,7 @@ namespace Postulate.Mvc
 
 			if (record != null)
 			{
-				foreach (var pi in props.Where(pi => IsSimpleType(pi.PropertyType) && !paramValues.Any(p => p.Name.Equals(pi.Name))))
+				foreach (var pi in props.Where(pi => pi.PropertyType.IsSimpleType() && !paramValues.Any(p => p.Name.Equals(pi.Name))))
 				{
 					var value = pi.GetValue(record);
 					if (value != null)
@@ -258,23 +275,6 @@ namespace Postulate.Mvc
 			}
 
 			return dp;
-		}
-
-		private static bool IsSimpleType(Type type)
-		{
-			// thanks to http://stackoverflow.com/questions/2442534/how-to-test-if-type-is-primitive
-			return
-				type.IsValueType ||
-				type.IsPrimitive ||
-				new Type[] {
-				typeof(String),
-				typeof(Decimal),
-				typeof(DateTime),
-				typeof(DateTimeOffset),
-				typeof(TimeSpan),
-				typeof(Guid)
-			}.Contains(type) ||
-				Convert.GetTypeCode(type) != TypeCode.Object;
 		}
 
 		private object GetSelectedValue(object record, PropertyInfo[] props, string valueProperty, out bool isDefaultValue)
@@ -299,6 +299,18 @@ namespace Postulate.Mvc
 		protected T LoadUserData<T>(T defaultInstance = null) where T : UserData, new()
 		{
 			return UserData.Load(Server, User.Identity.Name, defaultInstance);
+		}
+
+		protected override void OnActionExecuted(ActionExecutedContext filterContext)
+		{
+			base.OnActionExecuted(filterContext);
+
+			var model = filterContext.Controller.ViewData.Model as IQueryTrace;
+			if (model != null)
+			{
+				model.QueryTraceEnabled = Db.DebugQueries;
+				model.QueryTraces = _db.QueryTraces;
+			}
 		}
 	}
 }

@@ -1,12 +1,13 @@
-﻿using Postulate.Orm.Attributes;
+﻿using Postulate.Orm;
+using Postulate.Orm.Attributes;
 using Sample.Models;
 
 namespace SampleWebApp.Queries
 {
-    public class AllCustomers : DemoDbQuery<Customer>
-    {
-        public AllCustomers() : base(
-            @"SELECT
+	public class AllCustomers : Query<Customer>
+	{
+		public AllCustomers() : base(
+			@"SELECT
                 [c].*,
                 [ct].[Name] AS [CustomerTypeName],
                 [r].[Name] AS [RegionName]
@@ -18,16 +19,16 @@ namespace SampleWebApp.Queries
                 [c].[OrganizationId]=@orgId {andWhere}
             ORDER BY
                 [LastName], [FirstName]")
-        {
-        }
+		{
+		}
 
-        public int OrgId { get; set; }
+		public int OrgId { get; set; }
 
-        [Where("[LastName] LIKE '%'+@lastName+'%'")]
-        public string LastName { get; set; }
+		[Where("[LastName] LIKE '%'+@lastName+'%'")]
+		public string LastName { get; set; }
 
-        public int? TypeId { get; set; }
+		public int? TypeId { get; set; }
 
-        public int? RegionId { get; set; }
-    }
+		public int? RegionId { get; set; }
+	}
 }

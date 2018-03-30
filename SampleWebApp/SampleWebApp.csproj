@@ -108,11 +108,11 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Postulate.Orm.Core, Version=1.0.48.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Postulate.Orm.Core.1.0.48\lib\net461\Postulate.Orm.Core.dll</HintPath>
+    <Reference Include="Postulate.Orm.Core, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Postulate.Orm.Core.1.1.4\lib\net461\Postulate.Orm.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Postulate.Orm.SqlServer, Version=1.0.18.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Postulate.Orm.SqlServer.1.0.18-beta\lib\net461\Postulate.Orm.SqlServer.dll</HintPath>
+    <Reference Include="Postulate.Orm.SqlServer, Version=1.0.28.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Postulate.Orm.SqlServer.1.0.28\lib\net461\Postulate.Orm.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="ReflectionHelper, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AoReflectionHelper.1.0.1\lib\net461\ReflectionHelper.dll</HintPath>
@@ -222,6 +222,7 @@
     <Compile Include="SelectListQueries\RegionSelect.cs" />
     <Compile Include="SelectListQueries\SelectListQueryBase.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CustomersView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -244,6 +245,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="readme.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
@@ -308,6 +310,7 @@
     <Content Include="Views\Customer\Paged.cshtml" />
     <Content Include="Views\Customer\_List.cshtml" />
     <Content Include="Views\Shared\_Paging.cshtml" />
+    <Content Include="Views\Shared\_QueryTrace.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

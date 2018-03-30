@@ -1,0 +1,12 @@
+﻿@model IQueryTrace
+
+<ul>
+    @foreach (var qry in Model.QueryTraces)
+    {
+        <li>
+            <p>@qry.Sql</p>
+            <p>@qry.GetParameterValueString()</p>
+            <p>@(qry.Duration)ms</p>
+        </li>
+    }
+</ul>

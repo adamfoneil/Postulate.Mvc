@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Postulate.Orm.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -24,7 +25,7 @@ namespace Postulate.Mvc.Extensions
 
 		public static IDictionary<string, object> ConvertToDictionary(this object source, BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
 		{
-			return source.GetType().GetProperties(bindingAttr).Where(p => DynamicExtensions.IsSimpleType(p.PropertyType)).ToDictionary
+			return source.GetType().GetProperties(bindingAttr).Where(p => p.PropertyType.IsSimpleType()).ToDictionary
 			(
 				propInfo => propInfo.Name,
 				propInfo => propInfo.GetValue(source, null)

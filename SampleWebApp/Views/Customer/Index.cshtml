@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Customer>
+﻿@model CustomersView
 
 @{
     ViewBag.Title = "Index";
@@ -21,9 +21,13 @@
     </div>
 }
 
-@Html.Partial("_List", Model)
+@Html.Partial("_List", Model.Customers)
 
 @Html.Partial("~/Views/Shared/_Paging.cshtml", Html.CurrentPage())
 
 <p><a href="@Url.Action("Create")">Create</a></p>
 
+@if (Model.QueryTraceEnabled)
+{
+    @Html.Partial("~/Views/Shared/_QueryTrace.cshtml", Model)
+}
