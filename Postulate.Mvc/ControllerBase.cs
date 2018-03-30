@@ -46,19 +46,31 @@ namespace Postulate.Mvc
 		{
 			base.Initialize(requestContext);
 			_db.UserName = User.Identity.Name;
-			Db.DebugQueries = TraceQueries(requestContext);
+			Db.TraceQueries = TraceQueries(requestContext);
 		}
 
 		private bool TraceQueries(RequestContext requestContext)
 		{
 			try
-			{
-				return (requestContext.HttpContext.Request.QueryString["tracequeries"].Equals("1"));
+			{				
+				if (AllowQueryTrace(requestContext))
+				{
+					return (requestContext.HttpContext.Request.QueryString["tracequeries"].Equals("1"));
+				}
+				return false;
 			}
 			catch
 			{
 				// do nothing
 			}
+			return false;
+		}
+
+		/// <summary>
+		/// Override this to implement a custom rule for determining when query tracing is allowed. By default, query tracing is not allowed
+		/// </summary>		
+		protected virtual bool AllowQueryTrace(RequestContext requestContext)
+		{
 			return false;
 		}
 
@@ -308,7 +320,7 @@ namespace Postulate.Mvc
 			var model = filterContext.Controller.ViewData.Model as IQueryTrace;
 			if (model != null)
 			{
-				model.QueryTraceEnabled = Db.DebugQueries;
+				model.QueryTraceEnabled = Db.TraceQueries;
 				model.QueryTraces = _db.QueryTraces;
 			}
 		}
