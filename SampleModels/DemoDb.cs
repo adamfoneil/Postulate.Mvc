@@ -8,7 +8,7 @@ namespace Sample.Models
     {
         public DemoDb() : base("DefaultConnection")
         {
-            TraceCallback = (cn, qt) => Query.SaveTrace(cn, qt, this);
+            TraceCallback = (cn, qt) => QueryUtil.SaveTrace(cn, qt, this);
         }
 
         public DemoDb(Configuration config) : base(config, "DefaultConnection")
