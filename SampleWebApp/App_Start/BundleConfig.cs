@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using Postulate.Mvc.Abstract;
+using SampleWebApp.Models;
+using System.Web;
 using System.Web.Optimization;
 
 namespace SampleWebApp
@@ -18,6 +20,10 @@ namespace SampleWebApp
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
+
+			//SampleUserData userData = UserData.Load<SampleUserData>(HttpContext.Current.Request.MapPath("~/App_Data/Hello.json"));
+			//userData.Greeting = "this greeting";
+			//userData.Farewell = "whatever the farewell";
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
