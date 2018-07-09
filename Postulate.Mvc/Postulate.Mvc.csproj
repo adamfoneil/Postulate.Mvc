@@ -65,11 +65,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AoTestDataGen">
-      <Version>1.0.5</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.AspNet.Mvc">
-      <Version>5.2.3</Version>
+      <Version>5.2.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Owin.Host.SystemWeb">
       <Version>3.1.0</Version>
