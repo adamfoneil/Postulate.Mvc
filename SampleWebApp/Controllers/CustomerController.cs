@@ -89,5 +89,11 @@ namespace SampleWebApp.Controllers
             var history = Db.QueryChangeHistory<Customer>(id);
             return PartialView(history);
         }
+
+		[AllowAnonymous]
+		public ActionResult SampleAnon()
+		{
+			return View();
+		}
     }
 }

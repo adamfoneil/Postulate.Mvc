@@ -1,6 +1,7 @@
 ﻿using Postulate.Orm.Abstract;
 using Postulate.Orm.Interfaces;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -33,6 +34,9 @@ namespace Postulate.Mvc
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
 			base.OnActionExecuting(filterContext);
+
+			var attr = filterContext.ActionDescriptor.GetCustomAttributes(typeof(AllowAnonymousAttribute), true).OfType<AllowAnonymousAttribute>().FirstOrDefault();
+			if (attr != null) return;
 
 			if (_profile == null || !ProfileRule.Invoke(_profile))
 			{
