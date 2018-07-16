@@ -23,6 +23,7 @@ namespace Postulate.Mvc
 		private bool _traceQueries = false;
 
 		protected SqlDb<TKey> Db { get { return _db; } }
+		protected Exception LastException { get; private set; }
 
 		/// <summary>
 		/// SelectListQueries to execute when FillSelectLists is called
@@ -108,6 +109,7 @@ namespace Postulate.Mvc
 			}
 			catch (Exception exc)
 			{
+				LastException = exc;
 				CaptureErrorMessage(exc, record);
 				return false;
 			}
@@ -136,6 +138,7 @@ namespace Postulate.Mvc
 			}
 			catch (Exception exc)
 			{
+				LastException = exc;
 				CaptureErrorMessage(exc, record);
 				return false;
 			}
@@ -164,6 +167,7 @@ namespace Postulate.Mvc
 			}
 			catch (Exception exc)
 			{
+				LastException = exc;
 				TRecord errorRecord = Db.Find<TRecord>(connection, id);
 				CaptureErrorMessage(exc, errorRecord);
 				return false;
