@@ -12,7 +12,7 @@ namespace Postulate.Mvc
 	{
 		public SelectList ToSelectList(string selected = null)
 		{
-			return new SelectList(GetItems(selected), selected);
+			return new SelectList(GetItems(selected), "Value", "Text", selected);
 		}
 
 		public IEnumerable<SelectListItem> GetItems(string selected = null)
