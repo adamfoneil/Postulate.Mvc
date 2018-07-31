@@ -9,14 +9,19 @@
 @using (Html.BeginForm("Index", "Customer", FormMethod.Get))
 {
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-5">
             <label class="control-label">Type:</label>
             @Html.DropDownList("TypeId", ViewData["CustomerTypeSelect"] as SelectList, "(all)", new { onchange = "this.form.submit();", @class = "form-control" })
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-5">
             <label class="control-label">Region:</label>
             @Html.DropDownList("RegionId", ViewData["RegionSelect.RegionId"] as SelectList, "(all)", new { onchange = "this.form.submit();", @class = "form-control" })
+        </div>
+
+        <div class="col-sm-2">
+            <label class="control-label">Enum:</label>
+            @(Html.EnumDropDownList<SampleEnum>("SampleEnumValue", Model.SampleEnumValue, new { onchange = "this.form.submit();", @class = "form-control" }))
         </div>
     </div>
 }

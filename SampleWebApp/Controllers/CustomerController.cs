@@ -11,7 +11,7 @@ namespace SampleWebApp.Controllers
     [Authorize]
     public class CustomerController : ControllerBase
     {
-        public ActionResult Index(AllCustomers query, int page = 1)
+        public ActionResult Index(AllCustomers query, int page = 1, SampleEnum sampleEnumValue = SampleEnum.Jiminy)
         {
 			FillSelectLists(query);
 
@@ -20,6 +20,7 @@ namespace SampleWebApp.Controllers
 			query.RowsPerPage = 10;			
 
 			var vm = new CustomersView();
+			vm.SampleEnumValue = sampleEnumValue;
 			vm.Query = query;
 			vm.Customers = query.Execute(Db, page);
 			return View(vm);
