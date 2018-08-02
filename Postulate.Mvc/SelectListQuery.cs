@@ -1,5 +1,6 @@
 ﻿using Postulate.Orm;
 using Postulate.Orm.Interfaces;
+using System.Collections.Generic;
 using System.Data;
 using System.Web.Mvc;
 
@@ -44,8 +45,17 @@ namespace Postulate.Mvc
 			{
 				cn.Open();
 				var list = base.Execute(cn);
+				list = OnExecuted(cn, list);
 				return new SelectList(list, "Value", "Text", selectedValue);
 			}
+		}
+
+		/// <summary>
+		/// Override this to modify the displayed list of items in some way that can't be easily represented in the original query
+		/// </summary>
+		protected virtual IEnumerable<SelectListItem> OnExecuted(IDbConnection connection, IEnumerable<SelectListItem> sourceItems)
+		{
+			return sourceItems;
 		}
 	}
 }
