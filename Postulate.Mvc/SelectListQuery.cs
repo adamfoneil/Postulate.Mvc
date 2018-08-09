@@ -2,6 +2,7 @@
 using Postulate.Orm.Interfaces;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace Postulate.Mvc
@@ -39,23 +40,41 @@ namespace Postulate.Mvc
 			return null;
 		}
 
-		public SelectList Execute(object selectedValue = null)
-		{
-			using (var cn = Db.GetConnection())
-			{
-				cn.Open();
-				var list = base.Execute(cn);
-				list = OnExecuted(cn, list);
-				return new SelectList(list, "Value", "Text", selectedValue);
-			}
-		}
-
 		/// <summary>
 		/// Override this to modify the displayed list of items in some way that can't be easily represented in the original query
 		/// </summary>
 		protected virtual IEnumerable<SelectListItem> OnExecuted(IDbConnection connection, IEnumerable<SelectListItem> sourceItems)
 		{
 			return sourceItems;
+		}
+
+		public SelectList Execute(IDbConnection connection, object selectedValue = null)
+		{
+			var list = base.Execute(connection);
+			return new SelectList(list, "Value", "Text", selectedValue);
+		}
+
+		public SelectList Execute(object selectedValue = null)
+		{
+			using (var cn = Db.GetConnection())
+			{
+				cn.Open();
+				return Execute(cn, selectedValue);
+			}
+		}
+
+		public SelectListItem QueryItem(IDbConnection connection, object selectedValue)
+		{
+			var dictionary = base.Execute(connection).ToDictionary(item => item.Value);
+			return dictionary[selectedValue.ToString()];
+		}
+
+		public SelectListItem QueryItem(object selectedValue)
+		{
+			using (var cn = Db.GetConnection())
+			{
+				return QueryItem(cn, selectedValue);
+			}
 		}
 	}
 }
