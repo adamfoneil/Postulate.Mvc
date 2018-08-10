@@ -76,7 +76,7 @@
       <Version>10.0.3</Version>
     </PackageReference>
     <PackageReference Include="Postulate.Orm.Core">
-      <Version>1.1.5</Version>
+      <Version>1.1.59</Version>
     </PackageReference>
     <PackageReference Include="Postulate.Orm.SqlServer">
       <Version>1.0.28</Version>

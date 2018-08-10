@@ -50,8 +50,9 @@ namespace Postulate.Mvc
 
 		public SelectList Execute(IDbConnection connection, object selectedValue = null)
 		{
-			var list = base.Execute(connection);
-			return new SelectList(list, "Value", "Text", selectedValue);
+			var list = base.Execute(connection);			
+			list = OnExecuted(connection, list);
+			return new SelectList(list, "Value", "Text", selectedValue);			
 		}
 
 		public SelectList Execute(object selectedValue = null)
@@ -61,11 +62,16 @@ namespace Postulate.Mvc
 				cn.Open();
 				return Execute(cn, selectedValue);
 			}
+		}		
+
+		public Dictionary<string, SelectListItem> GetItemDictionary(IDbConnection connection)
+		{
+			return Execute(connection).ToDictionary(item => item.Value);
 		}
 
 		public SelectListItem QueryItem(IDbConnection connection, object selectedValue)
 		{
-			var dictionary = base.Execute(connection).ToDictionary(item => item.Value);
+			var dictionary = GetItemDictionary(connection);
 			return dictionary[selectedValue.ToString()];
 		}
 
